@@ -24,9 +24,19 @@ export async function renderPdfWithPuppeteer(
     logoDataUrl: await loadLogoDataUrl(),
   });
 
+  const resolvedDefaultExecutablePath =
+    typeof puppeteer.executablePath === "function" ? puppeteer.executablePath() : undefined;
+
+  const executablePath = [
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    process.env.CHROME_BIN,
+    resolvedDefaultExecutablePath,
+  ].find((candidate) => typeof candidate === "string" && candidate.trim().length > 0);
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath,
   });
 
   try {

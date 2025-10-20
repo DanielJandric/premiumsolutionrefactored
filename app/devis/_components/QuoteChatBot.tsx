@@ -104,7 +104,7 @@ export function QuoteChatBot() {
         id: `sophie-confirm-${result.id}`,
         role: "assistant",
         content:
-          "Merci pour toutes ces informations. Un collaborateur Premium Solution finalise votre devis et vous recontacte tres rapidement par email. Puis-je faire autre chose pour vous ?",
+          "Merci pour toutes ces informations. Votre demande est transmise a l'equipe Premium Solution qui vous recontactera tres rapidement par email. Nous restons disponibles si vous avez la moindre question supplementaire.",
       });
     } catch (error) {
       console.error("Erreur enregistrement devis :", error);
@@ -306,7 +306,36 @@ function isPersistedMessage(
 }
 
 function sanitizeMessageContent(content: string) {
-  return content.replace(/```json[\s\S]*?```/g, "").trim();
+  if (!content) return "";
+
+  const withoutFencedJson = content.replace(/```json[\s\S]*?```/gi, "").trim();
+  if (withoutFencedJson.length === 0) {
+    return "";
+  }
+
+  const trimmed = withoutFencedJson.trim();
+  if (isLikelyJson(trimmed)) {
+    return "";
+  }
+
+  return trimmed;
+}
+
+function isLikelyJson(value: string) {
+  const trimmed = value.trim();
+  if (
+    trimmed.length === 0 ||
+    (!trimmed.startsWith("{") && !trimmed.startsWith("["))
+  ) {
+    return false;
+  }
+
+  try {
+    JSON.parse(trimmed);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function isSummaryMarkedReady(

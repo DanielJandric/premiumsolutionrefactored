@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "extract:colors": "node scripts/extract-colors.mjs"
+    "extract:colors": "node scripts/extract-colors.mjs",
+    "postinstall": "node scripts/install-chrome.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
