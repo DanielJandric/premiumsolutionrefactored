@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 import { useRef } from "react";
 
 const metrics = [
@@ -149,13 +148,12 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                className="rounded-2xl border border-primary/20 bg-card/80 p-4 shadow-sm shadow-primary/10 backdrop-blur transition-all duration-500 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 dark:border-primary/30 dark:bg-card/25 card-3d"
               >
-                <AnimatedCounter
-                  end={item.value}
-                  label={item.label}
-                  suffix={item.suffix}
-                  duration={2 + index * 0.3}
-                />
+                <dt className="text-xs font-semibold uppercase tracking-wide text-primary">{item.label}</dt>
+                <dd className="mt-2 text-2xl font-semibold text-foreground">
+                  {item.value}{item.suffix || ""}
+                </dd>
               </motion.div>
             ))}
           </motion.dl>
