@@ -45,7 +45,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/70 backdrop-blur-xl">
       <div className="border-b border-border bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-2 text-sm">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-1.5 text-xs md:text-sm">
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="tel:+41766393653"
@@ -68,18 +68,18 @@ export function Header() {
         </div>
       </div>
 
-      <div className="container flex items-center justify-between py-4">
+      <div className="container flex items-center justify-between py-2.5 md:py-3">
         <Link
           href="/"
-          className="relative flex items-center gap-2 rounded-2xl border border-transparent px-2 py-1 transition hover:border-primary/30 hover:bg-primary/5"
+          className="relative flex items-center gap-2 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5"
         >
           <Image
             src="/logo.png"
             alt="Premium Solution"
-            width={160}
-            height={50}
+            width={144}
+            height={44}
             priority
-            className="h-auto w-24 sm:w-32 md:w-44"
+            className="h-8 w-auto sm:h-9 md:h-10"
             sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 176px"
           />
         </Link>
