@@ -10,6 +10,8 @@
     "extract:colors": "node scripts/extract-colors.mjs"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@supabase/supabase-js": "^2.45.0",
     "ai": "^3.4.0",
