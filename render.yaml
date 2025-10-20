@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: premiumsolution-web
+    env: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    rootDirectory: .
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Renseigne ici les variables nécessaires (exemple ci-dessous) :
+      # - key: NEXT_PUBLIC_SUPABASE_URL
+      #   sync: false
+      # - key: SUPABASE_SERVICE_ROLE_KEY
+      #   sync: false
