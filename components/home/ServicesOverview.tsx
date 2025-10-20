@@ -57,8 +57,11 @@ export function ServicesOverview() {
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Services premium
         </p>
-        <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
-          Une expertise multi-segments pour chaque besoin de propreté
+        <h2 className="text-3xl font-semibold sm:text-4xl">
+          <span className="text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary">
+            Une expertise multi-segments
+          </span>{" "}
+          <span className="text-foreground">pour chaque besoin de propreté</span>
         </h2>
         <p className="mx-auto max-w-2xl text-base text-muted-foreground">
           Premium Solution accompagne les gérances, entreprises et particuliers à
@@ -68,18 +71,27 @@ export function ServicesOverview() {
       </div>
 
       <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {services.map(({ imageSrc, imageAlt, ...service }) => (
-          <div key={service.title} className="grid gap-5">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-primary/20 shadow-xl shadow-primary/10 dark:border-primary/35 dark:shadow-primary/20">
+        {services.map(({ imageSrc, imageAlt, ...service }, index) => (
+          <div
+            key={service.title}
+            className="grid gap-5 group"
+            style={{
+              animationDelay: `${index * 100}ms`,
+            }}
+          >
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-primary/20 shadow-xl shadow-primary/10 dark:border-primary/35 dark:shadow-primary/20 neon-border">
               <Image
                 src={imageSrc}
                 alt={imageAlt}
                 fill
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                className="h-full w-full object-cover ken-burns"
                 sizes="(max-width: 768px) 100vw, 360px"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-opacity group-hover:from-black/30" />
             </div>
-            <ServiceCard {...service} />
+            <div className="card-3d">
+              <ServiceCard {...service} />
+            </div>
           </div>
         ))}
       </div>
