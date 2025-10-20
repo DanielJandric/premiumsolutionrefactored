@@ -31,6 +31,24 @@ const ROLE_LABEL: Record<QuoteConversationMessage["role"], string> = {
   system: "Systeme",
 };
 
+type AssistantSummary = {
+  ready_for_quote?: boolean;
+  client_type?: string;
+  client_name?: string;
+  client_email?: string;
+  client_phone?: string;
+  client_company?: string;
+  client_address?: string;
+  service_type?: string;
+  service_frequency?: string;
+  surface_area?: string | number;
+  location?: string;
+  preferred_date?: string;
+  budget_range?: string;
+  notes?: string;
+  metadata?: Record<string, unknown>;
+};
+
 type QuoteRequestDetailPageProps = {
   params?: Promise<{ id?: string | string[] }>;
 };
@@ -55,6 +73,7 @@ export default async function QuoteRequestDetailPage({ params }: QuoteRequestDet
 
   const createdAt = format(new Date(request.createdAt), "dd MMMM yyyy - HH:mm", { locale: fr });
   const conversationMessages = request.conversation ?? [];
+  const assistantSummary = extractAssistantSummary(request.collectedData);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background pb-16">
@@ -122,6 +141,7 @@ export default async function QuoteRequestDetailPage({ params }: QuoteRequestDet
             messages={conversationMessages}
             status={request.conversationRecord?.status}
             updatedAt={request.conversationRecord?.updatedAt}
+            summary={assistantSummary}
           />
         </section>
 
@@ -157,10 +177,12 @@ function ConversationCard({
   messages,
   status,
   updatedAt,
+  summary,
 }: {
   messages: QuoteConversationMessage[];
   status?: QuoteConversationStatus | null;
   updatedAt?: string | null;
+  summary?: AssistantSummary | null;
 }) {
   const formattedUpdatedAt =
     updatedAt && updatedAt.length > 0
@@ -168,6 +190,9 @@ function ConversationCard({
       : null;
   const statusLabel = status ? CONVERSATION_STATUS_LABEL[status] ?? status : null;
   const hasMessages = messages.length > 0;
+  const summaryRows = summary ? buildSummaryRows(summary) : [];
+  const readyState =
+    typeof summary?.ready_for_quote === "boolean" ? summary.ready_for_quote : undefined;
 
   return (
     <Card className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
@@ -182,6 +207,33 @@ function ConversationCard({
         </div>
       </CardHeader>
       <CardContent>
+        {summaryRows.length > 0 ? (
+          <div className="mb-6 space-y-3 rounded-2xl border border-border/60 bg-background/70 p-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground/70">
+                Resume valide par Sophie
+              </p>
+              {readyState !== undefined ? (
+                <Badge
+                  variant={readyState ? "secondary" : "outline"}
+                  className={readyState ? undefined : "border-destructive/40 text-destructive"}
+                >
+                  {readyState ? "Pret pour devis" : "Confirmation requise"}
+                </Badge>
+              ) : null}
+            </div>
+            <dl className="grid gap-3 sm:grid-cols-2">
+              {summaryRows.map((row) => (
+                <div key={row.label} className="space-y-1">
+                  <dt className="text-[11px] uppercase tracking-wide text-muted-foreground/60">
+                    {row.label}
+                  </dt>
+                  <dd className="text-foreground">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ) : null}
         {hasMessages ? (
           <div className="space-y-4">
             {messages.map((message, index) => (
@@ -220,4 +272,97 @@ function ConversationMessage({ message }: { message: QuoteConversationMessage })
       </div>
     </div>
   );
+}
+
+function extractAssistantSummary(input?: Record<string, unknown>): AssistantSummary | null {
+  if (!input || typeof input !== "object" || input === null) {
+    return null;
+  }
+
+  const raw = (input as Record<string, unknown>)["assistantSummary"];
+  if (!raw || typeof raw !== "object" || raw === null) {
+    return null;
+  }
+
+  const source = raw as Record<string, unknown>;
+
+  const getString = (key: string) => {
+    const value = source[key];
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      return trimmed.length > 0 ? trimmed : undefined;
+    }
+    return undefined;
+  };
+
+  const getNumber = (key: string) => {
+    const value = source[key];
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+    return undefined;
+  };
+
+  return {
+    ready_for_quote:
+      typeof source["ready_for_quote"] === "boolean" ? (source["ready_for_quote"] as boolean) : undefined,
+    client_type: getString("client_type"),
+    client_name: getString("client_name"),
+    client_email: getString("client_email"),
+    client_phone: getString("client_phone"),
+    client_company: getString("client_company"),
+    client_address: getString("client_address"),
+    service_type: getString("service_type"),
+    service_frequency: getString("service_frequency"),
+    surface_area: getNumber("surface_area") ?? getString("surface_area"),
+    location: getString("location"),
+    preferred_date: getString("preferred_date"),
+    budget_range: getString("budget_range"),
+    notes: getString("notes"),
+    metadata:
+      typeof source["metadata"] === "object" && source["metadata"] !== null
+        ? (source["metadata"] as Record<string, unknown>)
+        : undefined,
+  };
+}
+
+function buildSummaryRows(summary: AssistantSummary) {
+  const rows: Array<{ label: string; value: string }> = [];
+
+  const push = (label: string, value?: string) => {
+    if (!value || value.trim().length === 0) return;
+    rows.push({ label, value });
+  };
+
+  push("Profil", summary.client_type);
+  push("Nom", summary.client_name);
+  push("Email", summary.client_email);
+  push("Telephone", summary.client_phone);
+  push("Structure", summary.client_company);
+  push("Adresse", summary.client_address);
+  push("Prestation", summary.service_type);
+  push("Frequence", summary.service_frequency);
+  push("Surface", formatSurface(summary.surface_area));
+  push("Localisation", summary.location);
+  push("Delai souhaite", summary.preferred_date);
+  push("Budget", summary.budget_range);
+  push("Notes", summary.notes);
+
+  return rows;
+}
+
+function formatSurface(value?: string | number) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return `${value} m2`;
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (trimmed.length === 0) return undefined;
+    const hasAlpha = /[a-zA-Z]/.test(trimmed);
+    if (!hasAlpha && /\d/.test(trimmed)) {
+      return `${trimmed} m2`;
+    }
+    return trimmed;
+  }
+  return undefined;
 }

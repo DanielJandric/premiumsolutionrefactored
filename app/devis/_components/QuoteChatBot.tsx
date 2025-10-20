@@ -66,7 +66,7 @@ export function QuoteChatBot() {
 
     for (const message of assistantMessages) {
       const parsed = extractSummaryJSON(message.content);
-      if (!parsed?.ready_for_quote) continue;
+      if (!isSummaryMarkedReady(parsed)) continue;
 
       const key = JSON.stringify(parsed);
       if (processedSummaryKey === key) return;
@@ -307,6 +307,20 @@ function isPersistedMessage(
 
 function sanitizeMessageContent(content: string) {
   return content.replace(/```json[\s\S]*?```/g, "").trim();
+}
+
+function isSummaryMarkedReady(
+  summary: AssistantSummaryPayload | null,
+): summary is AssistantSummaryPayload & { ready_for_quote?: boolean } {
+  if (!summary) return false;
+  if (typeof summary.ready_for_quote === "boolean") {
+    return summary.ready_for_quote;
+  }
+  const hasEmail =
+    typeof summary.client_email === "string" && summary.client_email.trim().length > 0;
+  const hasService =
+    typeof summary.service_type === "string" && summary.service_type.trim().length > 0;
+  return hasEmail && hasService;
 }
 
 
