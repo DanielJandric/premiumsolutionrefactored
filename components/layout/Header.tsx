@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 type NavHref = Route | "#";
 
@@ -43,8 +44,8 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/70 backdrop-blur-xl">
-      <div className="border-b border-border bg-primary text-primary-foreground">
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-xl dark:border-border/60">
+      <div className="border-b border-border bg-primary text-primary-foreground dark:bg-primary/40">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-1.5 text-xs md:text-sm">
           <div className="flex flex-wrap items-center gap-4">
             <a
@@ -71,7 +72,7 @@ export function Header() {
       <div className="container flex items-center justify-between py-2.5 md:py-3">
         <Link
           href="/"
-          className="relative flex items-center gap-2 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5"
+          className="relative flex items-center gap-2 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5 dark:hover:border-primary/40 dark:hover:bg-primary/10"
         >
           <Image
             src="/logo.png"
@@ -79,7 +80,7 @@ export function Header() {
             width={144}
             height={44}
             priority
-            className="h-8 w-auto sm:h-9 md:h-10"
+            className="h-8 w-auto [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.15))] sm:h-9 md:h-10"
             sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 176px"
           />
         </Link>
@@ -151,18 +152,21 @@ export function Header() {
           <Button asChild variant="gradient" className="shadow-glow">
             <Link href="/devis">Obtenir un devis</Link>
           </Button>
+          <ThemeToggle className="hidden md:inline-flex" />
         </nav>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setMobileOpen((value) => !value)}
-          aria-expanded={mobileOpen}
-          aria-label="Ouvrir le menu mobile"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-expanded={mobileOpen}
+            aria-label="Ouvrir le menu mobile"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
 
       <div className="container pb-4 md:hidden">

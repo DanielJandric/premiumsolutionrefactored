@@ -24,7 +24,7 @@ export function MobileMenu({
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          className="overflow-hidden rounded-2xl border border-border bg-background/95 p-4 shadow-lg backdrop-blur"
+          className="overflow-hidden rounded-2xl border border-border bg-background/95 p-4 shadow-lg backdrop-blur dark:border-border/60 dark:bg-background/90"
         >
           <nav className="space-y-4">
             {navigation.map((item) => (
@@ -42,7 +42,7 @@ export function MobileMenu({
                   {item.name}
                 </Link>
                     {item.children ? (
-                      <div className="space-y-2 rounded-xl border border-dashed border-border/60 bg-muted/40 p-3">
+                      <div className="space-y-2 rounded-xl border border-dashed border-border/60 bg-muted/40 p-3 dark:border-border/50 dark:bg-muted/20">
                         {item.children.map((child) => (
                           <Link
                             key={child.name}

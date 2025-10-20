@@ -70,7 +70,7 @@ export function ServicesOverview() {
       <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {services.map(({ imageSrc, imageAlt, ...service }) => (
           <div key={service.title} className="grid gap-5">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-primary/20 shadow-xl shadow-primary/10">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-primary/20 shadow-xl shadow-primary/10 dark:border-primary/35 dark:shadow-primary/20">
               <Image
                 src={imageSrc}
                 alt={imageAlt}

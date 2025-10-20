@@ -47,10 +47,10 @@ export function Process() {
         {steps.map((step) => (
           <div
             key={step.number}
-            className="grid gap-6 rounded-3xl border border-border/70 bg-card/90 p-5 shadow-xl shadow-secondary/10 md:grid-cols-[auto,1fr]"
+            className="grid gap-6 rounded-3xl border border-border/70 bg-card/90 p-5 shadow-xl shadow-secondary/10 md:grid-cols-[auto,1fr] dark:border-border/60 dark:bg-card/35 dark:shadow-primary/15"
           >
             <div className="flex items-start">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-lg font-semibold text-primary shadow-inner shadow-primary/15">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-lg font-semibold text-primary shadow-inner shadow-primary/15 dark:border-primary/40 dark:bg-primary/25 dark:text-primary-foreground">
                 {step.number}
               </div>
             </div>
@@ -59,7 +59,7 @@ export function Process() {
                 <h3 className="text-xl font-semibold text-foreground">{step.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
               </div>
-              <div className="relative overflow-hidden rounded-2xl border border-primary/20">
+              <div className="relative overflow-hidden rounded-2xl border border-primary/20 dark:border-primary/35">
                 <Image
                   src={step.imageSrc}
                   alt={step.imageAlt}

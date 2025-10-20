@@ -32,18 +32,18 @@ export function Testimonials() {
         {testimonials.map((testimonial) => (
           <Card
             key={testimonial.company}
-            className="relative h-full overflow-hidden border-primary/20 bg-white/85 shadow-xl shadow-primary/10 backdrop-blur transition hover:-translate-y-1 hover:shadow-primary/15"
+            className="relative h-full overflow-hidden border-primary/20 bg-card/90 shadow-xl shadow-primary/10 backdrop-blur transition hover:-translate-y-1 hover:shadow-primary/15 dark:border-primary/30 dark:bg-card/35 dark:shadow-primary/20"
           >
             <CardHeader>
-              <CardTitle className="text-lg text-primary">
+              <CardTitle className="text-lg text-primary dark:text-primary-foreground">
                 {testimonial.company}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
               <p className="text-base text-muted-foreground">{testimonial.message}</p>
-              <div className="flex items-center justify-between border-t border-dashed border-primary/20 pt-4 text-sm text-muted-foreground">
+              <div className="flex items-center justify-between border-t border-dashed border-primary/20 pt-4 text-sm text-muted-foreground dark:border-primary/30">
                 <span>{testimonial.author}</span>
-                <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-primary">
+                <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-primary dark:border-primary/30 dark:bg-primary/25 dark:text-primary-foreground">
                   Avis
                 </span>
               </div>

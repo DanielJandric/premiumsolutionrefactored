@@ -14,10 +14,10 @@ const metrics = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-40" />
-        <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-35 dark:opacity-50" />
+        <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20" />
       </div>
 
       <div className="container flex flex-col items-center gap-12 pb-16 pt-16">
@@ -27,17 +27,32 @@ export function Hero() {
           </Badge>
 
           <div className="space-y-6 text-center lg:text-left">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl"
-            >
-              Premium Solution
-              <span className="block text-primary">
-                Votre partenaire conciergerie & nettoyage en Suisse romande
-              </span>
-            </motion.h1>
+            <div className="relative inline-block">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="relative z-10 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl"
+              >
+                Premium Solution
+                <span className="block text-primary">
+                  Votre partenaire conciergerie & nettoyage en Suisse romande
+                </span>
+              </motion.h1>
+
+              {/* Motif décoratif sous le titre: logo léger + soulignement gradient */}
+              <div className="pointer-events-none absolute -bottom-6 left-1/2 w-full -translate-x-1/2 -z-10">
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={1000}
+                  height={220}
+                  className="mx-auto h-auto w-full max-w-[720px] opacity-[0.16] contrast-125 [filter:saturate(1.05)] blur-[0.5px] mix-blend-soft-light [mask-image:radial-gradient(120%_120%_at_50%_50%,_#000_60%,_transparent_100%)] dark:opacity-[0.22]"
+                  priority={false}
+                />
+              </div>
+              <div className="pointer-events-none absolute -bottom-3 left-1/2 z-0 h-[2px] w-full -translate-x-1/2 rounded-full bg-gradient-to-r from-primary/0 via-primary/60 to-primary/0"></div>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -45,7 +60,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mx-auto w-full max-w-[520px]"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-primary/10 via-accent/30 to-secondary/20 shadow-2xl shadow-primary/25">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-primary/10 via-accent/30 to-secondary/20 shadow-2xl shadow-primary/25 dark:border-primary/30 dark:from-primary/20 dark:via-primary/15 dark:to-secondary/30">
                 <Image
                   src="/images/hero-professional.png"
                   alt="Technicienne Premium Solution prete pour une intervention de conciergerie"
@@ -82,7 +97,7 @@ export function Hero() {
               asChild
               variant="ghost"
               size="lg"
-              className="min-w-[200px] border border-primary/20 bg-white/70 text-primary shadow-sm shadow-primary/10 backdrop-blur hover:bg-white/90"
+              className="min-w-[200px] border border-primary/20 bg-card/80 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/90 dark:border-primary/40 dark:bg-card/30 dark:text-primary-foreground dark:hover:bg-card/40"
             >
               <Link href="/contact">Contacter l&apos;equipe</Link>
             </Button>
@@ -90,7 +105,7 @@ export function Hero() {
               asChild
               variant="secondary"
               size="lg"
-              className="min-w-[200px] border border-primary/20 bg-white/60 text-primary shadow-sm shadow-primary/10 backdrop-blur hover:bg-white/80"
+              className="min-w-[200px] border border-primary/20 bg-card/70 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/80 dark:border-primary/40 dark:bg-card/25 dark:text-primary-foreground dark:hover:bg-card/35"
             >
               <Link href="/collaborateurs">Acces collaborateurs</Link>
             </Button>
@@ -105,7 +120,7 @@ export function Hero() {
             {metrics.map((item) => (
               <div
                 key={item.label}
-                className="rounded-2xl border border-primary/20 bg-white/70 p-4 shadow-sm shadow-primary/10 backdrop-blur"
+                className="rounded-2xl border border-primary/20 bg-card/80 p-4 shadow-sm shadow-primary/10 backdrop-blur dark:border-primary/30 dark:bg-card/25"
               >
                 <dt className="text-xs font-semibold uppercase tracking-wide text-primary">{item.label}</dt>
                 <dd className="mt-2 text-2xl font-semibold text-foreground">{item.value}</dd>

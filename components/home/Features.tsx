@@ -42,7 +42,7 @@ export function Features() {
       <div className="grid items-center gap-8 lg:grid-cols-[1.15fr,0.85fr]">
         <div className="space-y-6">
           <div className="space-y-3">
-            <Badge variant="outline" className="border-primary/50 text-primary">
+            <Badge variant="outline" className="border-primary/50 text-primary dark:border-primary/40 dark:text-primary-foreground">
               Valeurs Premium Solution
             </Badge>
             <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
@@ -59,7 +59,7 @@ export function Features() {
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-3xl border border-border/70 bg-card/90 p-5 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40"
+                className="rounded-3xl border border-border/70 bg-card/90 p-5 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40 dark:border-border/60 dark:bg-card/35 dark:shadow-primary/15 dark:hover:border-primary/45"
               >
                 <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{feature.description}</p>
@@ -72,7 +72,7 @@ export function Features() {
           {gallery.map((image, index) => (
             <div
               key={image.src}
-              className="relative overflow-hidden rounded-3xl border border-primary/30 shadow-xl shadow-primary/10"
+              className="relative overflow-hidden rounded-3xl border border-primary/30 shadow-xl shadow-primary/10 dark:border-primary/40 dark:shadow-primary/20"
             >
               <Image
                 src={image.src}
