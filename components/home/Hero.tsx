@@ -84,7 +84,7 @@ export function Hero() {
               size="lg"
               className="min-w-[200px] border border-primary/20 bg-white/70 text-primary shadow-sm shadow-primary/10 backdrop-blur hover:bg-white/90"
             >
-              <Link href="/contact">Contacter l'equipe</Link>
+              <Link href="/contact">Contacter l&apos;equipe</Link>
             </Button>
             <Button
               asChild
