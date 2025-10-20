@@ -17,7 +17,7 @@ async function loadLogoDataUrl(): Promise<string | undefined> {
 
 export async function renderPdfWithPuppeteer(
   payload: CollaboratorDocumentPayload,
-): Promise<Buffer> {
+): Promise<Uint8Array> {
   const html = renderDocumentHtml({
     ...payload,
     generatedAt: new Date(),
@@ -44,6 +44,7 @@ export async function renderPdfWithPuppeteer(
       },
     });
 
+    // Puppeteer returns a Uint8Array in modern versions.
     return pdfBuffer;
   } finally {
     await browser.close();
