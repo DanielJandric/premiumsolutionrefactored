@@ -20,10 +20,14 @@ if (cacheDir) {
 }
 
 console.log(`[puppeteer] Installing bundled Chrome into ${cacheDir ?? "default cache"}`);
+if (cacheDir) {
+  process.env.PUPPETEER_CACHE_DIR = cacheDir;
+}
 
 const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
 const child = spawn(npxCommand, ["puppeteer", ...args], {
   stdio: "inherit",
+  env: process.env,
 });
 
 child.on("exit", (code) => {
