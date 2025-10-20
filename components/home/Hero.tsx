@@ -20,7 +20,7 @@ export function Hero() {
         <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
       </div>
 
-      <div className="container flex flex-col items-center gap-16 pb-20 pt-24">
+      <div className="container flex flex-col items-center gap-12 pb-16 pt-16">
         <div className="flex-1 space-y-10">
           <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30">
             Conciergerie & Nettoyage premium

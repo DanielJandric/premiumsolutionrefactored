@@ -38,10 +38,10 @@ const gallery = [
 
 export function Features() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-24">
-      <div className="grid items-center gap-12 lg:grid-cols-[1.15fr,0.85fr]">
-        <div className="space-y-8">
-          <div className="space-y-4">
+    <AnimatedSection className="container mx-auto px-4 py-14">
+      <div className="grid items-center gap-8 lg:grid-cols-[1.15fr,0.85fr]">
+        <div className="space-y-6">
+          <div className="space-y-3">
             <Badge variant="outline" className="border-primary/50 text-primary">
               Valeurs Premium Solution
             </Badge>
@@ -55,20 +55,20 @@ export function Features() {
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2">
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-3xl border border-border/70 bg-card/90 p-6 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40"
+                className="rounded-3xl border border-border/70 bg-card/90 p-5 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40"
               >
                 <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{feature.description}</p>
+                <p className="mt-1.5 text-sm text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           {gallery.map((image, index) => (
             <div
               key={image.src}

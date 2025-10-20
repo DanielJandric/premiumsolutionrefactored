@@ -34,7 +34,7 @@ const extras = [
 export default function ParticuliersPage() {
   return (
     <div className="space-y-20 pb-24">
-      <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-accent via-background to-primary/10 py-20">
+      <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-accent via-background to-primary/10 py-14">
         <div className="container mx-auto px-4">
           <PageHeader
             eyebrow="Particuliers"

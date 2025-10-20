@@ -52,7 +52,7 @@ const services = [
 
 export function ServicesOverview() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-24">
+    <AnimatedSection className="container mx-auto px-4 py-14">
       <div className="space-y-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Services premium
@@ -67,7 +67,7 @@ export function ServicesOverview() {
         </p>
       </div>
 
-      <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {services.map(({ imageSrc, imageAlt, ...service }) => (
           <div key={service.title} className="grid gap-5">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-primary/20 shadow-xl shadow-primary/10">

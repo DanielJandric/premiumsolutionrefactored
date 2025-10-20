@@ -18,7 +18,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-24">
+    <AnimatedSection className="container mx-auto px-4 py-14">
       <div className="mx-auto max-w-2xl text-center">
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Témoignages
@@ -28,7 +28,7 @@ export function Testimonials() {
         </h2>
       </div>
 
-      <div className="mt-16 grid gap-8 md:grid-cols-2">
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
         {testimonials.map((testimonial) => (
           <Card
             key={testimonial.company}

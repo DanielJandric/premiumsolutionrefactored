@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export default function DevisPage() {
   return (
     <div className="space-y-20 pb-24">
-      <AnimatedSection className="border-b border-border/70 bg-gradient-to-tr from-primary/15 via-background to-secondary/20 py-20">
+      <AnimatedSection className="border-b border-border/70 bg-gradient-to-tr from-primary/15 via-background to-secondary/20 py-14">
         <div className="container mx-auto px-4">
           <PageHeader
             eyebrow="Devis intelligent"

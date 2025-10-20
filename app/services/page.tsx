@@ -80,7 +80,7 @@ const avantages = [
 export default function ServicesPage() {
   return (
     <div className="space-y-20 pb-24">
-      <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-background via-primary/10 to-accent/20 py-20">
+      <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-background via-primary/10 to-accent/20 py-14">
         <div className="container mx-auto px-4">
           <PageHeader
             eyebrow="Catalogue de services"
@@ -120,7 +120,7 @@ export default function ServicesPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="bg-muted/40 py-20">
+      <AnimatedSection className="bg-muted/40 py-14">
         <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-[1fr,1.1fr]">
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-foreground">

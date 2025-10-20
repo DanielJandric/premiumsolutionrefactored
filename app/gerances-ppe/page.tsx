@@ -36,7 +36,7 @@ const interventions = [
 export default function GerancesPage() {
   return (
     <div className="space-y-20 pb-24">
-      <AnimatedSection className="border-b border-border/70 bg-gradient-to-r from-primary/10 via-background to-accent/20 py-20">
+      <AnimatedSection className="border-b border-border/70 bg-gradient-to-r from-primary/10 via-background to-accent/20 py-14">
         <div className="container mx-auto px-4">
           <PageHeader
             eyebrow="Gérances & PPE"
