@@ -152,7 +152,7 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
       <div className="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
         <p className="text-xs text-muted-foreground">
           Premium Solution répond sous 24 h ouvrables. Pour une demande urgente, contactez-nous
-          directement au +41 76 639 36 53.
+          directement au +41766074682.
         </p>
         <Button type="submit" disabled={loading} className="min-w-[200px]">
           {loading ? "Envoi en cours..." : "Envoyer ma demande"}
@@ -172,3 +172,4 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
     </form>
   );
 }
+

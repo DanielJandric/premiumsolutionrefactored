@@ -3,10 +3,45 @@
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+-- Table pour les demandes de devis recueillies via le chatbot
+CREATE TABLE IF NOT EXISTS quote_requests (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id TEXT,
+  request_number TEXT UNIQUE,
+
+  -- Informations client collectées
+  client_name TEXT,
+  client_email TEXT,
+  client_phone TEXT,
+  client_company TEXT,
+  client_address TEXT,
+  client_type TEXT CHECK (client_type IN ('gerances', 'entreprise', 'particulier')),
+
+  -- Besoin exprimé
+  service_type TEXT,
+  service_frequency TEXT,
+  surface_area NUMERIC,
+  location TEXT,
+  preferred_date TEXT,
+  budget_range TEXT,
+
+  -- Données conversationnelles et notes
+  collected_data JSONB,
+  notes TEXT,
+
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_review', 'finalized', 'sent')),
+  quote_id UUID,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  finalized_at TIMESTAMP,
+  metadata JSONB
+);
+
 -- Table pour les devis (quotes)
 CREATE TABLE IF NOT EXISTS quotes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   quote_number TEXT UNIQUE NOT NULL,
+  request_id UUID REFERENCES quote_requests(id),
 
   -- Informations client
   client_name TEXT NOT NULL,
@@ -115,6 +150,8 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
 CREATE INDEX IF NOT EXISTS idx_quotes_email ON quotes(client_email);
 CREATE INDEX IF NOT EXISTS idx_quotes_status ON quotes(status);
 CREATE INDEX IF NOT EXISTS idx_quotes_created_at ON quotes(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_quote_requests_status ON quote_requests(status);
+CREATE INDEX IF NOT EXISTS idx_quote_requests_created_at ON quote_requests(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
 CREATE INDEX IF NOT EXISTS idx_invoices_quote_id ON invoices(quote_id);
 CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_conversations(session_id);
@@ -130,6 +167,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_quotes_updated_at BEFORE UPDATE ON quotes
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_quote_requests_updated_at BEFORE UPDATE ON quote_requests
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_invoices_updated_at BEFORE UPDATE ON invoices
@@ -177,12 +217,14 @@ ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE chat_conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE quote_requests ENABLE ROW LEVEL SECURITY;
 
 -- Policies (tout le monde peut créer, seul le service_role peut lire/modifier)
 CREATE POLICY "Allow insert for all" ON quotes FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow insert for all" ON invoices FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow insert for all" ON chat_conversations FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow insert for all" ON contact_submissions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow insert for all" ON quote_requests FOR INSERT WITH CHECK (true);
 
 -- Storage bucket pour les PDFs
 INSERT INTO storage.buckets (id, name, public) VALUES ('documents', 'documents', false)

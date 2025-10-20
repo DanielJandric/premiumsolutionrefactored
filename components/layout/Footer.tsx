@@ -31,8 +31,8 @@ export function Footer() {
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <Link href="tel:+41766393653" className="hover:text-primary">
-                  +41 76 639 36 53
+                <Link href="tel:+41766074682" className="hover:text-primary">
+                  +41766074682
                 </Link>
               </p>
               <p className="flex items-center gap-2">
@@ -88,3 +88,4 @@ export function Footer() {
     </footer>
   );
 }
+

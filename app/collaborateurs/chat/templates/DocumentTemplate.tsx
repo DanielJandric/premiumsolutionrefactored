@@ -223,9 +223,10 @@ export function renderDocumentHtml(
     }
 
     <div class="footer">
-      <p>Premium Solution CM Sarl Route de Crans 81 - 1978 Lens E-mail : info@premium-solution.ch T&eacute;l&eacute;phone : +41766393653 Site Internet : www.premium-solution.ch N&deg; IDE : CHE-338.407.073 N&deg; IDE : CHE-338.407.073 Banque : Banque UBS Titulaire du compte : Premium Solution CM Sarl BIC : UBSWCHZH39L IBAN : CH100026826812976201J</p>
+      <p>Premium Solution CM Sarl Route de Crans 81 - 1978 Lens E-mail : info@premium-solution.ch T&eacute;l&eacute;phone : +41766074682 Site Internet : www.premium-solution.ch N&deg; IDE : CHE-338.407.073 N&deg; IDE : CHE-338.407.073 Banque : Banque UBS Titulaire du compte : Premium Solution CM Sarl BIC : UBSWCHZH39L IBAN : CH100026826812976201J</p>
       <p class="note">Document g&eacute;n&eacute;r&eacute; automatiquement via le portail collaborateurs Premium Solution.</p>
     </div>
   </body>
 </html>`;
 }
+

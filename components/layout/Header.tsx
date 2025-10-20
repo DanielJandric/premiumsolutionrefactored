@@ -65,11 +65,11 @@ export function Header() {
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-1.5 text-xs md:text-sm">
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href="tel:+41766393653"
+              href="tel:+41766074682"
               className="flex items-center gap-2 transition hover:opacity-90"
             >
               <Phone className="h-4 w-4" />
-              +41 76 639 36 53
+              +41766074682
             </a>
             <a
               href="mailto:info@premium-solution.ch"
@@ -196,3 +196,4 @@ export function Header() {
     </header>
   );
 }
+
