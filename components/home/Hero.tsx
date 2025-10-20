@@ -2,23 +2,45 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
+import { useRef } from "react";
 
 const metrics = [
-  { label: "Fondee en", value: "2020" },
-  { label: "Collaborateurs certifies", value: "30" },
-  { label: "Zone d'intervention", value: "Suisse romande" },
+  { label: "Fondee en", value: 2020, isYear: true },
+  { label: "Collaborateurs certifies", value: 30, suffix: "+" },
+  { label: "Clients satisfaits", value: 250, suffix: "+" },
 ];
 
 export function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10">
-      <div className="absolute inset-0 -z-10">
+    <section ref={ref} className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10">
+      <motion.div className="absolute inset-0 -z-10" style={{ y }}>
         <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-35 dark:opacity-50" />
-        <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20" />
-      </div>
+        <motion.div
+          className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20"
+          animate={{
+            scale: [1, 1.1, 1],
+            rotate: [0, 90, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </motion.div>
 
       <div className="container flex flex-col items-center gap-12 pb-16 pt-16">
         <div className="flex-1 space-y-10">
@@ -32,11 +54,14 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="relative z-10 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl"
+                className="relative z-10 font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl"
               >
-                Premium Solution
-                <span className="block text-primary">
-                  Votre partenaire conciergerie & nettoyage en Suisse romande
+                <span className="text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary">
+                  Premium Solution
+                </span>
+                <span className="block mt-4 text-3xl sm:text-4xl lg:text-5xl text-foreground">
+                  Votre partenaire conciergerie & nettoyage en{" "}
+                  <span className="text-primary font-bold">Suisse romande</span>
                 </span>
               </motion.h1>
 
@@ -60,13 +85,14 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mx-auto w-full max-w-[520px]"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-primary/10 via-accent/30 to-secondary/20 shadow-2xl shadow-primary/25 dark:border-primary/30 dark:from-primary/20 dark:via-primary/15 dark:to-secondary/30">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-primary/10 via-accent/30 to-secondary/20 shadow-2xl shadow-primary/25 dark:border-primary/30 dark:from-primary/20 dark:via-primary/15 dark:to-secondary/30 neon-border group">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
                 <Image
                   src="/images/hero-professional.png"
                   alt="Technicienne Premium Solution prete pour une intervention de conciergerie"
                   fill
                   priority
-                  className="object-cover"
+                  className="object-cover ken-burns"
                   sizes="(max-width: 1024px) 100vw, 560px"
                 />
               </div>
@@ -90,14 +116,14 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex flex-col gap-4 sm:flex-row sm:items-center"
           >
-            <Button asChild size="lg" variant="gradient" className="min-w-[200px]">
+            <Button asChild size="lg" variant="gradient" className="min-w-[200px] glow-pulse shine">
               <Link href="/devis">Obtenir un devis</Link>
             </Button>
             <Button
               asChild
               variant="ghost"
               size="lg"
-              className="min-w-[200px] border border-primary/20 bg-card/80 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/90 dark:border-primary/40 dark:bg-card/30 dark:text-primary-foreground dark:hover:bg-card/40"
+              className="min-w-[200px] border border-primary/20 bg-card/80 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/30 dark:text-primary-foreground dark:hover:bg-card/40"
             >
               <Link href="/contact">Contacter l&apos;equipe</Link>
             </Button>
@@ -105,7 +131,7 @@ export function Hero() {
               asChild
               variant="secondary"
               size="lg"
-              className="min-w-[200px] border border-primary/20 bg-card/70 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/80 dark:border-primary/40 dark:bg-card/25 dark:text-primary-foreground dark:hover:bg-card/35"
+              className="min-w-[200px] border border-primary/20 bg-card/70 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/80 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/25 dark:text-primary-foreground dark:hover:bg-card/35"
             >
               <Link href="/collaborateurs">Acces collaborateurs</Link>
             </Button>
@@ -117,14 +143,20 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="grid w-full gap-6 sm:grid-cols-3"
           >
-            {metrics.map((item) => (
-              <div
+            {metrics.map((item, index) => (
+              <motion.div
                 key={item.label}
-                className="rounded-2xl border border-primary/20 bg-card/80 p-4 shadow-sm shadow-primary/10 backdrop-blur dark:border-primary/30 dark:bg-card/25"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               >
-                <dt className="text-xs font-semibold uppercase tracking-wide text-primary">{item.label}</dt>
-                <dd className="mt-2 text-2xl font-semibold text-foreground">{item.value}</dd>
-              </div>
+                <AnimatedCounter
+                  end={item.value}
+                  label={item.label}
+                  suffix={item.suffix}
+                  duration={2 + index * 0.3}
+                />
+              </motion.div>
             ))}
           </motion.dl>
         </div>
