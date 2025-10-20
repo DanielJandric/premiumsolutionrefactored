@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Palette premium extraite du logo */
+    --color-brand-primary: 63 142 16;
+    --color-brand-primary-light: 101 165 64;
+    --color-brand-primary-dark: 50 114 13;
+
+    --color-brand-secondary: 96 163 57;
+    --color-brand-secondary-light: 128 182 96;
+    --color-brand-secondary-dark: 77 131 45;
+
+    --color-brand-accent: 235 236 233;
+    --color-brand-accent-light: 239 240 237;
+    --color-brand-accent-dark: 188 189 186;
+
+    --color-brand-neutral-darkest: 0 0 0;
+    --color-brand-neutral-dark: 22 77 6;
+    --color-brand-neutral-light: 247 247 245;
+
+    /* Couleurs shadcn/ui */
+    --background: 235 236 233;
+    --foreground: 22 77 6;
+
+    --card: 255 255 255;
+    --card-foreground: 22 77 6;
+
+    --popover: 255 255 255;
+    --popover-foreground: 22 77 6;
+
+    --primary: 63 142 16;
+    --primary-foreground: 255 255 255;
+
+    --secondary: 96 163 57;
+    --secondary-foreground: 255 255 255;
+
+    --muted: 235 236 233;
+    --muted-foreground: 52 73 36;
+
+    --accent: 239 240 237;
+    --accent-foreground: 22 77 6;
+
+    --destructive: 220 38 38;
+    --destructive-foreground: 255 255 255;
+
+    --border: 210 214 200;
+    --input: 210 214 200;
+    --ring: 63 142 16;
+
+    --radius: 0.75rem;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --background: 16 24 16;
+    --foreground: 230 242 223;
+
+    --card: 22 35 22;
+    --card-foreground: 230 242 223;
+
+    --popover: 22 35 22;
+    --popover-foreground: 230 242 223;
+
+    --primary: 126 194 86;
+    --primary-foreground: 16 24 16;
+
+    --secondary: 88 142 53;
+    --secondary-foreground: 230 242 223;
+
+    --muted: 28 42 28;
+    --muted-foreground: 176 189 168;
+
+    --accent: 32 48 32;
+    --accent-foreground: 230 242 223;
+
+    --destructive: 248 113 113;
+    --destructive-foreground: 35 35 35;
+
+    --border: 48 64 48;
+    --input: 48 64 48;
+    --ring: 126 194 86;
+
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
