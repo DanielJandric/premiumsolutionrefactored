@@ -67,5 +67,5 @@ export async function createCollaboratorSession(password: string) {
 
 export async function clearCollaboratorSession() {
   const cookieStore = await cookies();
-  cookieStore.delete(SESSION_COOKIE, { path: "/" });
+  cookieStore.delete(SESSION_COOKIE);
 }
