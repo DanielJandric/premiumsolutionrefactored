@@ -16,11 +16,11 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#8BCB5A_0%,transparent_55%)] opacity-40" />
-        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-40" />
+        <div className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
       </div>
 
-      <div className="container mx-auto flex flex-col items-center gap-16 px-4 pb-20 pt-24">
+      <div className="container flex flex-col items-center gap-16 pb-20 pt-24">
         <div className="flex-1 space-y-10">
           <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30">
             Conciergerie & Nettoyage premium
@@ -31,7 +31,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl"
+              className="font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl"
             >
               Premium Solution
               <span className="block text-primary">
@@ -75,7 +75,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex flex-col gap-4 sm:flex-row sm:items-center"
           >
-            <Button asChild size="lg" className="min-w-[200px] shadow-lg shadow-primary/30">
+            <Button asChild size="lg" variant="gradient" className="min-w-[200px]">
               <Link href="/devis">Obtenir un devis</Link>
             </Button>
             <Button

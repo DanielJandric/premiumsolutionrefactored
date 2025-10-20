@@ -16,6 +16,7 @@ export function ServiceCard({
 }: ServiceCardProps) {
   return (
     <Card className="relative h-full overflow-hidden border-border/80 bg-white/85 shadow-xl shadow-secondary/5 backdrop-blur transition hover:-translate-y-1.5 hover:shadow-primary/20">
+      <div className="pointer-events-none absolute inset-0 -z-10 rounded-xl before:absolute before:inset-[-1px] before:-z-10 before:rounded-[13px] before:bg-[linear-gradient(135deg,rgba(96,163,57,0.35),rgba(63,142,16,0.15),rgba(239,240,237,0.6))]" />
       <div className="absolute left-6 top-6">
         <Badge variant="secondary" className="shadow-sm shadow-secondary/30">
           {category}

@@ -43,7 +43,7 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/70 backdrop-blur-xl">
       <div className="border-b border-border bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-2 text-sm">
           <div className="flex flex-wrap items-center gap-4">
@@ -68,7 +68,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+      <div className="container flex items-center justify-between py-4">
         <Link
           href="/"
           className="relative flex items-center gap-2 rounded-2xl border border-transparent px-2 py-1 transition hover:border-primary/30 hover:bg-primary/5"
@@ -148,7 +148,7 @@ export function Header() {
               </Link>
             ),
           )}
-          <Button asChild className="shadow-lg shadow-primary/20">
+          <Button asChild variant="gradient" className="shadow-glow">
             <Link href="/devis">Obtenir un devis</Link>
           </Button>
         </nav>
@@ -165,7 +165,7 @@ export function Header() {
         </Button>
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 pb-4 md:hidden">
+      <div className="container pb-4 md:hidden">
         <MobileMenu
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
