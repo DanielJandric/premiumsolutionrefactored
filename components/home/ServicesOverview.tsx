@@ -74,7 +74,7 @@ export function ServicesOverview() {
         {services.map(({ imageSrc, imageAlt, ...service }, index) => (
           <div
             key={service.title}
-            className="grid gap-5 group"
+            className="group grid h-full grid-rows-[auto,1fr] gap-5"
             style={{
               animationDelay: `${index * 100}ms`,
             }}
@@ -89,9 +89,7 @@ export function ServicesOverview() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-opacity group-hover:from-black/30" />
             </div>
-            <div className="card-3d">
-              <ServiceCard {...service} />
-            </div>
+            <ServiceCard {...service} />
           </div>
         ))}
       </div>
