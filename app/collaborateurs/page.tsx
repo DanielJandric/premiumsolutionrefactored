@@ -20,6 +20,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Route } from "next";
 import type { ComponentType } from "react";
+
+export const revalidate = 0;
 import { cn } from "@/lib/utils";
 
 const QUICK_ACTIONS: {
