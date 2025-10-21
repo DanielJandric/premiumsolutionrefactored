@@ -2,6 +2,16 @@ import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 import { colors, spacing, typography, borderRadius as customBorderRadius, shadows } from "./lib/design-tokens";
 
+const flattenedShadows = Object.fromEntries(
+  Object.entries(shadows as Record<string, string | Record<string, string>>).flatMap(([key, value]) => {
+    if (typeof value === "string") {
+      return [[key, value]];
+    }
+
+    return Object.entries(value).map(([nestedKey, nestedValue]) => [`${key}-${nestedKey}`, nestedValue]);
+  }),
+) as Record<string, string>;
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -107,7 +117,7 @@ const config: Config = {
       lineHeight: typography.lineHeight,
       letterSpacing: typography.letterSpacing,
       boxShadow: {
-        ...shadows,
+        ...flattenedShadows,
         // Keep backwards compatibility
         glow: shadows.colored.primary,
       },

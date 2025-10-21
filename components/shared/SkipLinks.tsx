@@ -3,7 +3,6 @@
  * Permet aux utilisateurs de clavier de sauter directement au contenu principal
  */
 
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface SkipLink {
@@ -26,7 +25,7 @@ export function SkipLinks({ links = defaultLinks, className }: SkipLinksProps) {
   return (
     <div className={cn('skip-links', className)}>
       {links.map((link) => (
-        <Link
+        <a
           key={link.href}
           href={link.href}
           className={cn(
@@ -46,8 +45,9 @@ export function SkipLinks({ links = defaultLinks, className }: SkipLinksProps) {
           )}
         >
           {link.label}
-        </Link>
+        </a>
       ))}
     </div>
   );
 }
+

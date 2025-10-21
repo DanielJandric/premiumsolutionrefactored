@@ -144,7 +144,29 @@ export const spacing = {
 // TYPOGRAPHY
 // ========================================
 
-export const typography = {
+type Typography = {
+  fontFamily: {
+    display: string;
+    body: string;
+    mono: string;
+  };
+  fontSize: Record<
+    string,
+    [
+      fontSize: string,
+      {
+        lineHeight: string;
+        letterSpacing: string;
+        fontWeight?: string | number;
+      }
+    ]
+  >;
+  fontWeight: Record<string, string>;
+  lineHeight: Record<string, string>;
+  letterSpacing: Record<string, string>;
+};
+
+export const typography: Typography = {
   fontFamily: {
     display: 'var(--font-manrope), system-ui, sans-serif',
     body: 'var(--font-inter), system-ui, sans-serif',
@@ -196,7 +218,7 @@ export const typography = {
     wider: '0.05em',
     widest: '0.1em',
   },
-} as const;
+};
 
 // ========================================
 // BORDER RADIUS
