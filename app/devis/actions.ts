@@ -3,6 +3,49 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { createQuoteRequest } from "@/lib/quotes/service";
+import { parseSurfaceArea } from "@/lib/utils";
+
+const surfaceAreaSchema = z
+  .union([z.number(), z.string().trim()])
+  .optional()
+  .transform((value, ctx) => {
+    if (value === undefined || value === null || value === "") {
+      return undefined;
+    }
+
+    const numeric = parseSurfaceArea(value);
+    if (numeric === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Surface invalide",
+      });
+      return z.NEVER;
+    }
+
+    if (numeric < 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.too_small,
+        minimum: 0,
+        inclusive: true,
+        type: "number",
+        message: "Surface invalide",
+      });
+      return z.NEVER;
+    }
+
+    if (numeric > 100000) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.too_big,
+        maximum: 100000,
+        inclusive: true,
+        type: "number",
+        message: "Surface trop elevee",
+      });
+      return z.NEVER;
+    }
+
+    return numeric;
+  });
 
 const chatMessageSchema = z.object({
   id: z.string().optional(),
@@ -20,23 +63,7 @@ const quoteRequestSchema = z.object({
   clientType: z.enum(["gerances", "entreprise", "particulier"]),
   serviceType: z.string().trim().min(1, "Choisissez un service"),
   serviceFrequency: z.string().trim().optional(),
-  surfaceArea: z
-    .number()
-    .min(0)
-    .max(100000, "Surface trop élevée")
-    .optional()
-    .or(
-      z
-        .string()
-        .trim()
-        .optional()
-        .transform((value) => (value ? Number(value) : undefined))
-        .refine((value) => value === undefined || !Number.isNaN(value), "Surface invalide")
-        .refine(
-          (value) => value === undefined || (typeof value === "number" && value >= 0),
-          "Surface invalide",
-        ),
-    ),
+  surfaceArea: surfaceAreaSchema,
   location: z.string().trim().optional(),
   preferredDate: z.string().trim().optional(),
   budgetRange: z.string().trim().optional(),
@@ -69,7 +96,7 @@ export async function submitQuoteRequestAction(input: QuoteRequestSubmission) {
     clientType: payload.clientType,
     serviceType: payload.serviceType,
     serviceFrequency: payload.serviceFrequency,
-    surfaceArea: typeof payload.surfaceArea === "number" ? payload.surfaceArea : undefined,
+    surfaceArea: payload.surfaceArea,
     location: payload.location,
     preferredDate: payload.preferredDate,
     budgetRange: payload.budgetRange,

@@ -5,7 +5,7 @@ import { useChat, type Message } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { submitQuoteRequestAction, type QuoteRequestSubmission } from "@/app/devis/actions";
-import { cn } from "@/lib/utils";
+import { cn, parseSurfaceArea } from "@/lib/utils";
 
 const WELCOME_TEXT =
   "Bonjour ! Je suis Sophie, assistante devis Premium Solution. Decrivez-moi votre besoin de nettoyage ou de conciergerie et je m'occupe de preparer le devis pour l'equipe.";
@@ -242,7 +242,7 @@ function buildQuoteSubmission(
   transcript: Message[],
   sessionId: string,
 ): QuoteRequestSubmission {
-  const surface = typeof summary.surface_area === "number" ? summary.surface_area : Number(summary.surface_area);
+  const surface = parseSurfaceArea(summary.surface_area);
 
   return {
     sessionId,
@@ -254,7 +254,7 @@ function buildQuoteSubmission(
     clientAddress: summary.client_address ?? "",
     serviceType: summary.service_type ?? "",
     serviceFrequency: summary.service_frequency ?? "",
-    surfaceArea: Number.isFinite(surface) ? surface : undefined,
+    surfaceArea: surface,
     location: summary.location ?? "",
     preferredDate: summary.preferred_date ?? "",
     budgetRange: summary.budget_range ?? "",
