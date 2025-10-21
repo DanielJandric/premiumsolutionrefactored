@@ -88,6 +88,19 @@ export function CollaboratorChatPanel() {
       const structured = message.role === "assistant"
         ? extractStructuredPayload(message.content)
         : null;
+      const jsonMatch = message.content.match(/```json\s*([\s\S]*?)```/i);
+      const preamble = jsonMatch
+        ? message.content.slice(0, jsonMatch.index ?? 0).trim()
+        : message.content.trim();
+      const afterJson = jsonMatch
+        ? message.content
+            .slice((jsonMatch.index ?? 0) + jsonMatch[0].length)
+            .trim()
+        : "";
+
+      const textPieces = [preamble, afterJson].filter(
+        (section) => section && section.length > 0,
+      );
 
       return (
         <div
@@ -115,9 +128,19 @@ export function CollaboratorChatPanel() {
               )}
             </div>
             <div className="mt-2 space-y-3 text-sm leading-relaxed">
-              {message.content.split("```json")[0]?.split("\n").map((line, idx) => (
-                line.trim().length > 0 ? <p key={idx}>{line}</p> : null
-              ))}
+              {textPieces.length > 0 ? (
+                textPieces.map((section, sectionIdx) => (
+                  <div key={`${message.id}-text-${sectionIdx}`} className="space-y-2">
+                    {section.split("\n").map((line, lineIdx) =>
+                      line.trim().length > 0 ? <p key={`${sectionIdx}-${lineIdx}`}>{line}</p> : null,
+                    )}
+                  </div>
+                ))
+              ) : message.role === "assistant" && structured ? (
+                <p className="text-xs text-muted-foreground">
+                  Document structuré prêt à être enregistré ci-dessous.
+                </p>
+              ) : null}
 
               {structured ? (
                 <Card className="border-primary/40 bg-primary/5 text-left">
