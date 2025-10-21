@@ -94,7 +94,7 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-transform duration-300",
-        "bg-gradient-to-r from-background/95 via-primary/10 to-background/95 backdrop-blur-2xl",
+        "bg-background/95 backdrop-blur",
         isVisible ? "translate-y-0 shadow-lg shadow-primary/10" : "-translate-y-full",
         scrolled ? "border-border" : "border-border/70 dark:border-border/50",
       )}
