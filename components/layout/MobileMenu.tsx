@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { NavigationItem } from "@/components/layout/Header";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 interface MobileMenuProps {
   open: boolean;
@@ -72,6 +73,9 @@ export function MobileMenu({
             >
               Obtenir un devis
             </Link>
+            <div className="rounded-xl border border-border/60 bg-muted/40 p-3 dark:border-border/50 dark:bg-muted/20">
+              <ThemeToggle className="w-full justify-center" />
+            </div>
           </nav>
         </motion.div>
       ) : null}

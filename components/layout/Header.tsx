@@ -10,7 +10,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 type NavHref = Route | "#";
 
@@ -190,11 +189,9 @@ export function Header() {
               Obtenir un devis
             </Link>
           </Button>
-         <ThemeToggle className="hidden md:inline-flex" />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
           <Button
             variant="ghost"
             size="icon"
