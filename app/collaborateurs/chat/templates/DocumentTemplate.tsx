@@ -103,12 +103,22 @@ export function renderDocumentHtml(
     <title>${title} ${sanitizeText(payload.reference)}</title>
     <style>
       * { box-sizing: border-box; }
+      html, body {
+        height: 100%;
+      }
       body {
         margin: 0;
         font-family: 'Inter', Arial, sans-serif;
         color: #111827;
         background: #ffffff;
         padding: 40px;
+        display: flex;
+        flex-direction: column;
+      }
+      .document-wrapper {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
       }
       h1 { font-size: 26px; margin-bottom: 4px; }
       h2 { font-size: 18px; margin: 24px 0 8px; }
@@ -140,91 +150,91 @@ export function renderDocumentHtml(
       .totals tr.total td { font-weight: 600; font-size: 14px; }
       .notes { margin-top: 24px; font-size: 12px; color: #4b5563; }
       .footer {
-        margin-top: 36px;
+        margin-top: auto;
         font-size: 10px;
         color: #6b7280;
         text-align: center;
-        line-height: 1.4;
+        line-height: 1.2;
       }
-      .footer .note { margin-top: 8px; font-size: 10px; color: #9ca3af; }
+      .footer p { margin: 2px 0; }
+      .footer .note { margin-top: 6px; font-size: 10px; color: #9ca3af; }
     </style>
   </head>
   <body>
-    <div class="header">
-      <div>
-        <div class="badge">Premium Solution</div>
-        <h1>${title}</h1>
-        <p>R&eacute;f&eacute;rence : <strong>${sanitizeText(payload.reference)}</strong></p>
-        ${serviceDate ? `<p>Date de service : ${serviceDate}</p>` : ""}
-      </div>
-      <div class="header-right">
-        <p class="company-name">Premium Solution</p>
-        ${
-          logoDataUrl
-            ? `<img class="logo" src="${logoDataUrl}" alt="Logo Premium Solution" />`
-            : ""
-        }
-        <div class="meta">
-          <p>G&eacute;n&eacute;r&eacute; le ${generated}</p>
+    <div class="document-wrapper">
+      <div class="header">
+        <div>
+          <h1>${title}</h1>
+          <p>R&eacute;f&eacute;rence : <strong>${sanitizeText(payload.reference)}</strong></p>
+          ${serviceDate ? `<p>Date de service : ${serviceDate}</p>` : ""}
+        </div>
+        <div class="header-right">
+          ${
+            logoDataUrl
+              ? `<img class="logo" src="${logoDataUrl}" alt="Logo Premium Solution" />`
+              : ""
+          }
+          <div class="meta">
+            <p>G&eacute;n&eacute;r&eacute; le ${generated}</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h2>Client</h2>
-      <p><strong>${sanitizeText(client.name)}</strong></p>
-      ${client.company ? `<p>${sanitizeText(client.company)}</p>` : ""}
-      ${client.address ? `<p>${sanitizeText(client.address)}</p>` : ""}
-      ${client.email ? `<p>${sanitizeText(client.email)}</p>` : ""}
-      ${client.phone ? `<p>${sanitizeText(client.phone)}</p>` : ""}
-    </div>
+      <div class="section">
+        <h2>Client</h2>
+        <p><strong>${sanitizeText(client.name)}</strong></p>
+        ${client.company ? `<p>${sanitizeText(client.company)}</p>` : ""}
+        ${client.address ? `<p>${sanitizeText(client.address)}</p>` : ""}
+        ${client.email ? `<p>${sanitizeText(client.email)}</p>` : ""}
+        ${client.phone ? `<p>${sanitizeText(client.phone)}</p>` : ""}
+      </div>
 
-    <div class="section">
-      <h2>D&eacute;tails des prestations</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th class="numeric">Qt&eacute;</th>
-            <th class="numeric">Unit&eacute;</th>
-            <th class="numeric">Prix unitaire</th>
-            <th class="numeric">Total</th>
-          </tr>
-        </thead>
+      <div class="section">
+        <h2>D&eacute;tails des prestations</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th class="numeric">Qt&eacute;</th>
+              <th class="numeric">Unit&eacute;</th>
+              <th class="numeric">Prix unitaire</th>
+              <th class="numeric">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableBody}
+          </tbody>
+        </table>
+      </div>
+
+      <table class="totals">
         <tbody>
-          ${tableBody}
+          <tr>
+            <td>Sous-total</td>
+            <td class="numeric">${formatCurrency(totals.subtotal)}</td>
+          </tr>
+          <tr>
+            <td>TVA (${(totals.vatRate * 100).toFixed(2).replace(/\\.00$/, "") || "0"} %)</td>
+            <td class="numeric">${formatCurrency(totals.vatAmount)}</td>
+          </tr>
+          <tr class="total">
+            <td>Total</td>
+            <td class="numeric">${formatCurrency(totals.total)}</td>
+          </tr>
         </tbody>
       </table>
+
+      ${
+        payload.payment_terms
+          ? `<div class="section"><h2>Conditions de paiement</h2><p>${sanitizeText(payload.payment_terms)}</p></div>`
+          : ""
+      }
+      ${
+        payload.notes
+          ? `<div class="section"><h2>Notes</h2><p>${sanitizeText(payload.notes)}</p></div>`
+          : ""
+      }
     </div>
-
-    <table class="totals">
-      <tbody>
-        <tr>
-          <td>Sous-total</td>
-          <td class="numeric">${formatCurrency(totals.subtotal)}</td>
-        </tr>
-        <tr>
-          <td>TVA (${(totals.vatRate * 100).toFixed(2).replace(/\\.00$/, "") || "0"} %)</td>
-          <td class="numeric">${formatCurrency(totals.vatAmount)}</td>
-        </tr>
-        <tr class="total">
-          <td>Total</td>
-          <td class="numeric">${formatCurrency(totals.total)}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    ${
-      payload.payment_terms
-        ? `<div class="section"><h2>Conditions de paiement</h2><p>${sanitizeText(payload.payment_terms)}</p></div>`
-        : ""
-    }
-    ${
-      payload.notes
-        ? `<div class="section"><h2>Notes</h2><p>${sanitizeText(payload.notes)}</p></div>`
-        : ""
-    }
-
     <div class="footer">
       <p>Premium Solution CM Sarl Route de Crans 81 - 1978 Lens</p>
       <p>info@premium-solution.ch +41 76 607 46 82</p>
