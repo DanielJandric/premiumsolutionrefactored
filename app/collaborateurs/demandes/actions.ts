@@ -252,23 +252,13 @@ export async function convertQuoteToInvoiceAction(input: ConvertQuoteForm) {
 
         return {
           description,
-          quantity,
-          unit,
-          unit_price: unitPrice,
-          total: computedTotal,
+          quantity: quantity ?? undefined,
+          unit: unit ?? undefined,
+          unit_price: unitPrice ?? undefined,
+          total: computedTotal ?? undefined,
         };
       })
-      .filter(
-        (
-          item,
-        ): item is {
-          description: string;
-          quantity?: number;
-          unit?: string;
-          unit_price?: number;
-          total?: number;
-        } => Boolean(item),
-      );
+      .filter((item): item is NonNullable<typeof item> => item !== null);
 
     if (invoiceItems.length === 0) {
       return {
