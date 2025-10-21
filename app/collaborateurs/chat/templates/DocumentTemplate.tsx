@@ -111,9 +111,10 @@ export function renderDocumentHtml(
         font-family: 'Inter', Arial, sans-serif;
         color: #111827;
         background: #ffffff;
-        padding: 40px;
+        padding: 40px 40px 20px;
         display: flex;
         flex-direction: column;
+        min-height: 100vh;
       }
       .document-wrapper {
         flex: 1 1 auto;
@@ -130,11 +131,18 @@ export function renderDocumentHtml(
         gap: 16px;
       }
       .badge { text-transform: uppercase; font-size: 12px; letter-spacing: 2px; color: #6b7280; }
+      .legal-name {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #1B5F45;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+      }
       .meta { margin-top: 12px; font-size: 13px; color: #4b5563; text-align: right; }
       .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
       .logo { max-width: 140px; height: auto; }
       .section { margin-top: 28px; }
-      .company-name { font-size: 18px; font-weight: 600; color: #1B7F5B; margin: 0; }
       table { width: 100%; border-collapse: collapse; margin-top: 12px; }
       thead { background: #f3f4f6; }
       th, td {
@@ -154,16 +162,18 @@ export function renderDocumentHtml(
         font-size: 10px;
         color: #6b7280;
         text-align: center;
-        line-height: 1.2;
+        line-height: 1.1;
+        padding-bottom: 8px;
       }
-      .footer p { margin: 2px 0; }
-      .footer .note { margin-top: 6px; font-size: 10px; color: #9ca3af; }
+      .footer p { margin: 1px 0; }
+      .footer .note { margin-top: 4px; font-size: 10px; color: #9ca3af; }
     </style>
   </head>
   <body>
     <div class="document-wrapper">
       <div class="header">
         <div>
+          <p class="legal-name">PREMIUM SOLUTION cm Sàrl</p>
           <h1>${title}</h1>
           <p>R&eacute;f&eacute;rence : <strong>${sanitizeText(payload.reference)}</strong></p>
           ${serviceDate ? `<p>Date de service : ${serviceDate}</p>` : ""}
