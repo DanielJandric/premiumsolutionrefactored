@@ -217,7 +217,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
         <div>
           <h2 className="text-xl font-semibold text-foreground">Finaliser le devis</h2>
           <p className="text-sm text-muted-foreground">
-            Ajustez les lignes de prestations, les montants et les notes avant de générer le PDF envoyé au client.
+            Ajustez les lignes de prestations, les montants et les notes avant de generer le PDF envoye au client.
           </p>
         </div>
         <div className="flex gap-2">
@@ -233,7 +233,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
       <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
         <div className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Référence" required>
+            <Field label="Reference" required>
               <Input
                 value={formState.reference}
                 onChange={(event) => setFormState((prev) => ({ ...prev, reference: event.target.value }))}
@@ -258,7 +258,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
                     placeholder="Description"
                   />
                 </Field>
-                <Field label="Quantité">
+                <Field label="Quantite">
                   <Input
                     value={item.quantity}
                     type="number"
@@ -267,7 +267,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
                     onChange={(event) => updateItem(item.id, { quantity: Number(event.target.value) || 0 })}
                   />
                 </Field>
-                <Field label="Unité">
+                <Field label="Unite">
                   <Input
                     value={item.unit ?? ""}
                     onChange={(event) => updateItem(item.id, { unit: event.target.value })}
@@ -345,7 +345,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
             <Input
               value={formState.finalizedBy}
               onChange={(event) => setFormState((prev) => ({ ...prev, finalizedBy: event.target.value }))}
-              placeholder="Nom et prénom"
+              placeholder="Nom et prenom"
             />
           </Field>
 
@@ -362,7 +362,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
           ) : null}
 
           <Button type="button" className="w-full" onClick={handleSubmit} disabled={isPending}>
-            G�n�rer le devis PDF
+            Gnrer le devis PDF
           </Button>
           {activeQuoteId ? (
             <Button
