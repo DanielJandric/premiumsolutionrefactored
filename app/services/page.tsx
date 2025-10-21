@@ -81,7 +81,7 @@ export default function ServicesPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-background via-primary/10 to-accent/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="Catalogue de services"
             title="Des prestations premium pour chaque besoin de propreté"
@@ -91,7 +91,7 @@ export default function ServicesPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-6 lg:grid-cols-2">
           {services.map(({ imageSrc, imageAlt, ...service }, index) => (
             <div
@@ -121,7 +121,7 @@ export default function ServicesPage() {
       </AnimatedSection>
 
       <AnimatedSection className="bg-muted/40 py-14">
-        <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-[1fr,1.1fr]">
+        <div className="container grid gap-12 lg:grid-cols-[1fr,1.1fr]">
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-foreground">
               Pourquoi choisir Premium Solution ?

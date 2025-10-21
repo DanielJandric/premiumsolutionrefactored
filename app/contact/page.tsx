@@ -24,7 +24,7 @@ export default function ContactPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-primary/10 via-background to-accent/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="Contact"
             title="Parlons de votre projet de conciergerie ou de nettoyage"
@@ -34,7 +34,7 @@ export default function ContactPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-12 lg:grid-cols-[1fr,1.2fr]">
           <div className="space-y-8">
             <div className="rounded-3xl border border-border/60 bg-card/90 p-6 shadow-lg shadow-primary/5">

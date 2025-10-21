@@ -8,7 +8,7 @@ export default function DevisPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-tr from-primary/15 via-background to-secondary/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="Devis intelligent"
             title="Obtenez votre devis Premium Solution en quelques minutes"
@@ -18,7 +18,7 @@ export default function DevisPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold text-foreground">Comment fonctionne la demande de devis ?</h3>

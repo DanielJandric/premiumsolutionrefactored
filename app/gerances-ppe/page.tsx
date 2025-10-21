@@ -37,7 +37,7 @@ export default function GerancesPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-r from-primary/10 via-background to-accent/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="Gérances & PPE"
             title="Conciergerie premium pour vos immeubles et copropriétés"
@@ -81,7 +81,7 @@ export default function GerancesPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold text-foreground">
@@ -125,7 +125,7 @@ export default function GerancesPage() {
       </AnimatedSection>
 
       <AnimatedSection className="bg-muted/40 py-16">
-        <div className="container mx-auto flex flex-col items-center gap-6 px-4 text-center">
+        <div className="container flex flex-col items-center gap-6 text-center">
           <h3 className="text-2xl font-semibold text-foreground">
             Besoin d’un partenaire fiable pour vos immeubles ?
           </h3>

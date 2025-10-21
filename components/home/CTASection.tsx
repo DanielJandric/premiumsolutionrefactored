@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function CTASection() {
   return (
-    <AnimatedSection className="container mx-auto px-4 pb-14">
+    <AnimatedSection className="container pb-14">
       <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/15 via-accent to-secondary/20 p-10 shadow-2xl shadow-primary/20 dark:border-primary/40 dark:from-primary/25 dark:via-secondary/20 dark:to-primary/40 dark:shadow-primary/30">
         <Image
           src="/images/cta-swiss-romande.png"

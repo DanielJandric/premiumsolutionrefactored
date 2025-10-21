@@ -44,7 +44,7 @@ export default function EntreprisesPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-tr from-secondary/10 via-background to-accent/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="Entreprises & Commerces"
             title="Conciergerie professionnelle pour vos lieux de travail"
@@ -88,7 +88,7 @@ export default function EntreprisesPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold text-foreground">
@@ -131,7 +131,7 @@ export default function EntreprisesPage() {
       </AnimatedSection>
 
       <AnimatedSection className="bg-muted/40 py-16">
-        <div className="container mx-auto flex flex-col items-center gap-6 px-4 text-center">
+        <div className="container flex flex-col items-center gap-6 text-center">
           <h3 className="text-2xl font-semibold text-foreground">
             Confiez vos bureaux à une équipe premium
           </h3>

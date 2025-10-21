@@ -56,7 +56,7 @@ export default function AproposPage() {
   return (
     <div className="space-y-20 pb-24">
       <AnimatedSection className="border-b border-border/70 bg-gradient-to-br from-primary/10 via-background to-secondary/20 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <PageHeader
             eyebrow="À propos"
             title="Premium Solution, partenaire propreté depuis 2020"
@@ -66,7 +66,7 @@ export default function AproposPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold text-foreground">
@@ -99,7 +99,7 @@ export default function AproposPage() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="container mx-auto px-4">
+      <AnimatedSection className="container">
         <div className="rounded-3xl border border-border/60 bg-card/90 p-8 shadow-lg shadow-primary/5">
           <h3 className="text-2xl font-semibold text-foreground">Nos valeurs</h3>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
@@ -117,7 +117,7 @@ export default function AproposPage() {
       </AnimatedSection>
 
       <AnimatedSection className="bg-muted/40 py-14">
-        <div className="container mx-auto px-4">
+        <div className="container">
           <h3 className="text-2xl font-semibold text-foreground">
             Une croissance guidée par la satisfaction client
           </h3>

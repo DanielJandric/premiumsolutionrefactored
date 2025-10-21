@@ -52,7 +52,7 @@ const services = [
 
 export function ServicesOverview() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-14">
+    <AnimatedSection className="container py-14">
       <div className="space-y-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Services premium

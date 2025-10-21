@@ -41,7 +41,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-14">
+    <AnimatedSection className="container py-14">
       <div className="mx-auto max-w-2xl text-center">
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">
           Témoignages clients

@@ -16,7 +16,7 @@ const services = [
 export function Footer() {
   return (
     <footer className="relative mt-20 border-t border-border bg-gradient-to-t from-primary/5 via-background to-background dark:border-border/60 dark:from-primary/15 dark:via-background/95">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-primary">Premium Solution</h3>
@@ -63,7 +63,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border/80 bg-background/70 py-6 text-sm text-muted-foreground dark:border-border/60 dark:bg-background/80">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row">
+        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <p>
             © {new Date().getFullYear()} Premium Solution — Tous droits réservés.
           </p>

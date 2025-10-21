@@ -38,11 +38,11 @@ const gallery = [
 
 export function Features() {
   return (
-    <AnimatedSection className="container mx-auto px-4 py-14">
+    <AnimatedSection className="container py-14">
       <div className="grid items-center gap-8 lg:grid-cols-[1.15fr,0.85fr]">
         <div className="space-y-6">
           <div className="space-y-3">
-            <Badge variant="outline" className="border-primary/50 text-primary dark:border-primary/40 dark:text-primary-foreground">
+            <Badge variant="outline" className="border-primary/50 text-primary dark:border-primary/45 dark:text-white">
               Valeurs Premium Solution
             </Badge>
             <h2 className="text-3xl font-semibold sm:text-4xl">

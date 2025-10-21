@@ -17,7 +17,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
-import { CustomCursor } from "@/components/shared/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Premium Solution",
@@ -41,7 +40,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         }}
       >
         <ThemeProvider>
-          <CustomCursor />
           <ScrollProgress />
           <div className="flex min-h-screen flex-col">
             <Header />

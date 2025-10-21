@@ -16,8 +16,8 @@ export default async function CollaboratorLoginPage({
 
   return (
     <div className="min-h-[80vh] bg-gradient-to-br from-background via-primary/5 to-accent/10">
-      <div className="container mx-auto flex max-w-xl flex-col justify-center px-4 py-24">
-        <div className="rounded-3xl border border-border/70 bg-card/95 p-10 shadow-xl shadow-primary/10 backdrop-blur">
+      <div className="container flex justify-center py-24">
+        <div className="w-full max-w-xl rounded-3xl border border-border/70 bg-card/95 p-10 shadow-xl shadow-primary/10 backdrop-blur">
           <div className="space-y-4 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.4em] text-primary">
               Espace collaborateurs
