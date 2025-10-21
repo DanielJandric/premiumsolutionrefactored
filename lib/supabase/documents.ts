@@ -10,7 +10,25 @@ export interface SupabaseDocument {
 
 const LIST_LIMIT = 100;
 
-export async function listSupabaseDocuments() {
+const SIGNED_URL_TTL_SECONDS = 60 * 30;
+const CACHE_TTL_MS = 30_000;
+
+let documentsCache:
+  | {
+      value: SupabaseDocument[];
+      expiresAt: number;
+    }
+  | null = null;
+
+export async function listSupabaseDocuments(options?: { force?: boolean }) {
+  if (
+    !options?.force &&
+    documentsCache &&
+    documentsCache.expiresAt > Date.now()
+  ) {
+    return documentsCache.value;
+  }
+
   const supabase = createSupabaseServerClient();
   const bucket = process.env.SUPABASE_STORAGE_BUCKET;
 
@@ -33,6 +51,9 @@ export async function listSupabaseDocuments() {
     }
 
     const entries: SupabaseDocument[] = [];
+    const folders: string[] = [];
+    type StorageEntry = NonNullable<typeof data>[number];
+    const files: Array<{ storage: StorageEntry; currentPath: string }> = [];
 
     for (const item of data ?? []) {
       const isFolder =
@@ -41,35 +62,65 @@ export async function listSupabaseDocuments() {
       const currentPath = prefix ? `${prefix}/${item.name}` : item.name;
 
       if (isFolder) {
-        const nested = await listPath(currentPath);
-        entries.push(...nested);
+        folders.push(currentPath);
         continue;
       }
 
-      const { data: signed, error: signedError } = await supabase.storage
-        .from(bucketName)
-        .createSignedUrl(currentPath, 60 * 30);
-
-      if (signedError) {
-        throw signedError;
-      }
-
-      entries.push({
-        path: currentPath,
-        name: item.name,
-        size: Number((item.metadata as { size?: number })?.size ?? 0),
-        updatedAt: item.updated_at ?? new Date().toISOString(),
-        signedUrl: signed?.signedUrl ?? null,
+      files.push({
+        storage: item,
+        currentPath,
       });
+    }
+
+    if (folders.length > 0) {
+      const nestedLists = await Promise.all(
+        folders.map(async (folderPath) => listPath(folderPath)),
+      );
+      for (const nested of nestedLists) {
+        entries.push(...nested);
+      }
+    }
+
+    if (files.length > 0) {
+      const signedResults = await Promise.all(
+        files.map(async (file) => {
+          const { data: signed, error: signedError } = await supabase.storage
+            .from(bucketName)
+            .createSignedUrl(file.currentPath, SIGNED_URL_TTL_SECONDS);
+
+          if (signedError) {
+            throw signedError;
+          }
+
+          const sizeMeta = file.storage.metadata as { size?: number } | undefined;
+
+          return {
+            path: file.currentPath,
+            name: file.storage.name,
+            size: Number(sizeMeta?.size ?? 0),
+            updatedAt: file.storage.updated_at ?? new Date().toISOString(),
+            signedUrl: signed?.signedUrl ?? null,
+          } satisfies SupabaseDocument;
+        }),
+      );
+
+      entries.push(...signedResults);
     }
 
     return entries;
   }
 
   const documents = await listPath("");
-  return documents.sort(
+  const sorted = documents.sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
   );
+
+  documentsCache = {
+    value: sorted,
+    expiresAt: Date.now() + CACHE_TTL_MS,
+  };
+
+  return sorted;
 }
 
 export async function uploadDocumentToSupabase(
@@ -97,7 +148,7 @@ export async function uploadDocumentToSupabase(
 
   const { data: signed, error: signedError } = await supabase.storage
     .from(bucket)
-    .createSignedUrl(path, 60 * 30);
+    .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
 
   if (signedError) {
     throw signedError;
