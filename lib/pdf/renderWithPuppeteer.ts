@@ -2,10 +2,20 @@ import fs from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import path from "node:path";
 import puppeteer from "puppeteer";
+import {
+  Browser,
+  ChromeReleaseChannel,
+  computeExecutablePath,
+  detectBrowserPlatform,
+  install as installBrowser,
+  resolveBuildId,
+} from "@puppeteer/browsers";
 import { CollaboratorDocumentPayload } from "@/lib/documents/types";
 import { renderDocumentHtml } from "@/app/collaborateurs/chat/templates/DocumentTemplate";
 
 const DEFAULT_RENDER_CACHE_DIR = "/opt/render/.cache/puppeteer";
+const downloadLock: { promise: Promise<void> | null } = { promise: null };
+let cachedExecutablePath: string | undefined;
 
 async function loadLogoDataUrl(): Promise<string | undefined> {
   const logoPath = path.join(process.cwd(), "public", "logo.png");
@@ -27,13 +37,17 @@ export async function renderPdfWithPuppeteer(
     logoDataUrl: await loadLogoDataUrl(),
   });
 
-  const executablePath = await resolveChromeExecutablePath();
-
-  const browser = await puppeteer.launch({
+  const launchOptions: Parameters<typeof puppeteer.launch>[0] = {
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath,
-  });
+  };
+
+  const executablePath = await ensureChromeExecutablePath();
+  if (executablePath) {
+    launchOptions.executablePath = executablePath;
+  }
+
+  const browser = await puppeteer.launch(launchOptions);
 
   try {
     const page = await browser.newPage();
@@ -55,6 +69,26 @@ export async function renderPdfWithPuppeteer(
   } finally {
     await browser.close();
   }
+}
+
+async function ensureChromeExecutablePath(): Promise<string | undefined> {
+  if (cachedExecutablePath && (await fileExists(cachedExecutablePath))) {
+    return cachedExecutablePath;
+  }
+
+  let resolved = await resolveChromeExecutablePath();
+  if (resolved) {
+    cachedExecutablePath = resolved;
+    return resolved;
+  }
+
+  await downloadChromeIfNeeded();
+  resolved = await resolveChromeExecutablePath();
+  if (resolved) {
+    cachedExecutablePath = resolved;
+  }
+
+  return resolved;
 }
 
 async function resolveChromeExecutablePath(): Promise<string | undefined> {
@@ -86,6 +120,74 @@ async function resolveChromeExecutablePath(): Promise<string | undefined> {
   }
 
   return undefined;
+}
+
+async function downloadChromeIfNeeded(): Promise<void> {
+  if (!process.env.PUPPETEER_CACHE_DIR && process.env.RENDER === "true") {
+    process.env.PUPPETEER_CACHE_DIR = DEFAULT_RENDER_CACHE_DIR;
+  }
+
+  if (!downloadLock.promise) {
+    downloadLock.promise = (async () => {
+      const cacheDir = process.env.PUPPETEER_CACHE_DIR ?? DEFAULT_RENDER_CACHE_DIR;
+      try {
+        await fs.mkdir(cacheDir, { recursive: true });
+      } catch {
+        // Ignore mkdir errors; download will fail later if directory is unusable.
+      }
+
+      try {
+        const platform = detectBrowserPlatform();
+        if (!platform) {
+          return;
+        }
+
+        try {
+          const { downloadBrowsers } = await import("puppeteer/internal/node/install.js");
+          await downloadBrowsers();
+        } catch (error) {
+          console.warn("[pdf] Puppeteer downloadBrowsers fallback failed, retrying via manual install", error);
+        }
+
+        const buildId = await resolveBuildId(Browser.CHROME, platform, ChromeReleaseChannel.STABLE);
+        const executableCandidate = computeExecutablePath({
+          browser: Browser.CHROME,
+          cacheDir,
+          platform,
+          buildId,
+        });
+
+        if (!(await fileExists(executableCandidate))) {
+          await installBrowser({
+            browser: Browser.CHROME,
+            cacheDir,
+            platform,
+            buildId,
+            downloadProgressCallback: process.env.NODE_ENV === "development" ? "default" : undefined,
+          });
+        }
+
+        if (await fileExists(executableCandidate)) {
+          cachedExecutablePath = executableCandidate;
+        }
+      } catch (error) {
+        console.error("[pdf] Unable to download Chrome for Puppeteer", error);
+      }
+    })();
+  }
+
+  const currentPromise = downloadLock.promise;
+  if (!currentPromise) {
+    return;
+  }
+
+  try {
+    await currentPromise;
+  } finally {
+    if (downloadLock.promise === currentPromise) {
+      downloadLock.promise = null;
+    }
+  }
 }
 
 async function findChromeExecutable(root: string, depth = 0): Promise<string | undefined> {
