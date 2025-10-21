@@ -17,36 +17,44 @@ export function ThemeProvider({
   enableSystem = true,
 }: ThemeProviderProps) {
   React.useEffect(() => {
-    // Add View Transition API support for theme changes
-    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-      // Enable smooth theme transitions using View Transitions API
-      const style = document.createElement('style');
-      style.textContent = `
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const doc = document as Document & {
+      startViewTransition?: (callback: () => void) => Promise<void>;
+    };
+
+    if (typeof doc.startViewTransition === "function") {
+      const vtStyle = doc.createElement("style");
+      vtStyle.setAttribute("data-theme-view-transition", "true");
+      vtStyle.textContent = `
         ::view-transition-old(root),
         ::view-transition-new(root) {
           animation-duration: 0.5s;
         }
       `;
-      document.head.appendChild(style);
-    } else {
-      // Fallback to CSS transitions for browsers that don't support View Transitions
-      const style = document.createElement('style');
-      style.textContent = `
-        * {
-          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        *::before,
-        *::after {
-          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-      `;
-      document.head.appendChild(style);
+      doc.head.appendChild(vtStyle);
 
-      // Remove transitions after theme change to avoid performance issues
-      setTimeout(() => {
-        style.remove();
-      }, 500);
+      return () => {
+        vtStyle.remove();
+      };
     }
+
+    const fallbackStyle = doc.createElement("style");
+    fallbackStyle.setAttribute("data-theme-fallback", "true");
+    fallbackStyle.textContent = `
+      *,
+      *::before,
+      *::after {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
+    `;
+    doc.head.appendChild(fallbackStyle);
+
+    return () => {
+      fallbackStyle.remove();
+    };
   }, []);
 
   return (
@@ -54,7 +62,6 @@ export function ThemeProvider({
       attribute={attribute}
       defaultTheme={defaultTheme}
       enableSystem={enableSystem}
-      // Enable transitions on theme change
       disableTransitionOnChange={false}
     >
       {children}
