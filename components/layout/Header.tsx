@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,12 +40,24 @@ const navigation: NavItem[] = [
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const visibilityRef = useRef(true);
+
+  useEffect(() => {
+    const routesToPrefetch = navigation
+      .flatMap((item) => (item.children ? item.children : [item]))
+      .map((item) => item.href)
+      .filter((href): href is Route => href !== "#" && typeof href === "string");
+
+    routesToPrefetch.forEach((route) => {
+      router.prefetch(route);
+    });
+  }, [router]);
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -90,6 +102,7 @@ export function Header() {
       <div className="container flex items-center justify-between py-3 md:py-4">
         <Link
           href="/"
+          prefetch
           className="relative flex items-center gap-3 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5 dark:hover:border-primary/40 dark:hover:bg-primary/10"
         >
           <Image
@@ -140,6 +153,7 @@ export function Header() {
                           <Link
                             key={child.name}
                             href={child.href as Route}
+                            prefetch
                             className={cn(
                               "block rounded-xl px-3 py-2 text-sm transition hover:bg-muted",
                               pathname === child.href
@@ -159,6 +173,7 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href as Route}
+                prefetch
                 className={cn(
                   "text-sm font-medium transition-colors",
                   pathname === item.href
@@ -171,7 +186,9 @@ export function Header() {
             ),
           )}
           <Button asChild variant="gradient" className="shadow-glow">
-            <Link href="/devis">Obtenir un devis</Link>
+            <Link href="/devis" prefetch>
+              Obtenir un devis
+            </Link>
           </Button>
          <ThemeToggle className="hidden md:inline-flex" />
         </nav>

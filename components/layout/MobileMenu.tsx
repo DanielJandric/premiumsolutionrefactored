@@ -31,6 +31,7 @@ export function MobileMenu({
               <div key={item.name} className="space-y-2">
                 <Link
                   href={item.href === "#" ? ("/" as Route) : (item.href as Route)}
+                  prefetch={item.href !== "#"}
                   className={cn(
                     "flex items-center justify-between text-base font-medium transition-colors",
                     currentPath === item.href
@@ -47,6 +48,7 @@ export function MobileMenu({
                           <Link
                             key={child.name}
                             href={child.href as Route}
+                            prefetch
                         className={cn(
                           "block text-sm transition-colors",
                           currentPath === child.href
@@ -64,6 +66,7 @@ export function MobileMenu({
             ))}
             <Link
               href="/devis"
+              prefetch
               className="flex items-center justify-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90"
               onClick={onClose}
             >

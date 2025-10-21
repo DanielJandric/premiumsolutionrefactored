@@ -1,22 +1,26 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-
-// Import fonts from @fontsource (self-hosted, no network dependency)
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/500.css";
-import "@fontsource/manrope/600.css";
-import "@fontsource/manrope/700.css";
-import "@fontsource/manrope/800.css";
+import { Inter, Manrope } from "next/font/google";
 
 import "@/app/globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-manrope",
+});
 
 export const metadata: Metadata = {
   title: "Premium Solution",
@@ -33,10 +37,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="fr" suppressHydrationWarning>
       <body
         className={cn(
+          inter.variable,
+          manrope.variable,
           "min-h-screen bg-background text-foreground antialiased",
         )}
         style={{
-          fontFamily: 'Inter, Manrope, system-ui, sans-serif',
+          fontFamily: "Inter, Manrope, system-ui, sans-serif",
         }}
       >
         <ThemeProvider>
