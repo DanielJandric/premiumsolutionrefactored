@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 type NavHref = Route | "#";
 
@@ -184,6 +185,7 @@ export function Header() {
               </Link>
             ),
           )}
+          <ThemeToggle className="hidden md:inline-flex" />
           <Button asChild variant="gradient" className="shadow-glow">
             <Link href="/devis" prefetch>
               Obtenir un devis
