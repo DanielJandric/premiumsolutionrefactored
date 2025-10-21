@@ -7,6 +7,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
+import { SkipLinks } from "@/components/shared/SkipLinks";
+import { CustomCursor } from "@/components/shared/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -104,10 +106,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         }}
       >
         <ThemeProvider>
+          <SkipLinks />
+          <CustomCursor />
           <ScrollProgress />
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

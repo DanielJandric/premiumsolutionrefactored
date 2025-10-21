@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRef } from "react";
+import { SVGPatterns, AnimatedBlob } from "@/components/shared/SVGPatterns";
 
 const metrics = [
   { label: "Fondee en", value: 2020, isYear: true },
@@ -24,9 +25,19 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10">
+    <section ref={ref} className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10 noise-texture">
       <motion.div className="absolute inset-0 -z-10" style={{ y }}>
+        {/* SVG Pattern */}
+        <SVGPatterns pattern="dots" className="text-primary/5" opacity={0.15} />
+
+        {/* Gradient meshes */}
         <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-35 dark:opacity-50" />
+
+        {/* Animated blobs */}
+        <AnimatedBlob className="top-0 left-0" color="primary" />
+        <AnimatedBlob className="bottom-0 right-0" color="secondary" />
+
+        {/* Rotating blur circle */}
         <motion.div
           className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20"
           animate={{
@@ -53,12 +64,12 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="relative z-10 font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl"
+                className="relative z-10 font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl text-balance"
               >
                 <span className="text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary">
                   Premium Solution
                 </span>
-                <span className="mt-4 block text-3xl text-foreground sm:text-4xl lg:text-5xl">
+                <span className="mt-4 block text-3xl text-foreground sm:text-4xl lg:text-5xl text-balance">
                   Votre partenaire conciergerie & nettoyage en {" "}
                   <span className="text-primary font-bold">Suisse romande</span>
                 </span>
@@ -148,10 +159,10 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-              className="rounded-2xl border border-primary/20 bg-card/80 p-4 shadow-sm shadow-primary/10 backdrop-blur transition-all duration-500 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 dark:border-primary/30 dark:bg-card/25 card-3d"
+              className="rounded-2xl border border-primary/20 bg-card/80 p-6 shadow-md shadow-primary/10 backdrop-blur-md transition-all duration-500 hover:shadow-xl hover:shadow-primary/30 dark:border-primary/30 dark:bg-card/25 card-3d group will-change-transform"
             >
-              <dt className="text-xs font-semibold uppercase tracking-wide text-primary">{item.label}</dt>
-              <dd className="mt-2 text-2xl font-semibold text-foreground">
+              <dt className="text-eyebrow">{item.label}</dt>
+              <dd className="mt-3 text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
                 {item.value}{item.suffix || ""}
               </dd>
             </motion.div>

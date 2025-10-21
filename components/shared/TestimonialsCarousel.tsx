@@ -54,19 +54,19 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
               key={index}
               className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
             >
-              <Card className="relative h-full overflow-hidden border-primary/20 bg-card/90 shadow-xl shadow-primary/10 backdrop-blur transition-all duration-500 hover:shadow-primary/20 hover:-translate-y-2 dark:border-primary/30 dark:bg-card/35 dark:shadow-primary/20 card-3d neon-border group">
+              <Card className="relative h-full overflow-hidden border-primary/20 bg-card/90 shadow-xl shadow-primary/10 backdrop-blur-md transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 dark:border-primary/30 dark:bg-card/35 dark:shadow-primary/20 card-3d neon-border group will-change-transform glass">
                 <CardHeader>
-                  <CardTitle className="text-lg text-primary dark:text-primary-foreground flex items-center justify-between">
-                    <span>{testimonial.company}</span>
+                  <CardTitle className="text-lg text-primary dark:text-primary-foreground flex items-center justify-between group-hover:text-secondary transition-colors">
+                    <span className="font-semibold">{testimonial.company}</span>
                     {testimonial.rating && (
                       <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
                           <span
                             key={i}
-                            className={`text-yellow-500 transition-all duration-300 ${
+                            className={`transition-all duration-300 ${
                               i < testimonial.rating!
-                                ? "opacity-100 scale-100"
-                                : "opacity-30 scale-90"
+                                ? "text-gold-500 opacity-100 scale-100 group-hover:scale-110"
+                                : "text-gold-500 opacity-30 scale-90"
                             }`}
                           >
                             ★
@@ -77,13 +77,13 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                  <p className="text-base text-muted-foreground leading-relaxed italic">
+                  <p className="text-base text-muted-foreground leading-relaxed italic group-hover:text-foreground transition-colors">
                     {testimonial.message}
                   </p>
                   <div className="flex items-center justify-between border-t border-dashed border-primary/20 pt-4 text-sm text-muted-foreground dark:border-primary/30">
-                    <span className="font-medium">{testimonial.author}</span>
-                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-primary dark:border-primary/30 dark:bg-primary/25 dark:text-primary-foreground">
-                      Avis
+                    <span className="font-semibold text-foreground">{testimonial.author}</span>
+                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-primary dark:border-primary/30 dark:bg-primary/25 dark:text-primary-foreground group-hover:bg-primary/20 transition-colors">
+                      Vérifié
                     </span>
                   </div>
                 </CardContent>
