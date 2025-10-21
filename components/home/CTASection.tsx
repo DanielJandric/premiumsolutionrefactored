@@ -30,7 +30,7 @@ export function CTASection() {
               avec la même exigence de qualité.
             </p>
             <p className="text-sm font-medium text-primary/80">
-              Besoin d’un échange humain ? Appelez-nous au +41766074682.
+              Besoin d’un échange humain ? Appelez-nous au +41 76 607 46 82.
             </p>
           </div>
           <div className="flex flex-col gap-3 md:flex-row">

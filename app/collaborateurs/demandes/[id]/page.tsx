@@ -1,12 +1,29 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { ReactNode } from "react";
+import type { Route } from "next";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Mail, Phone, MapPin, Building2, Calendar, FileText, MessageCircle } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Building2,
+  Calendar,
+  FileText,
+  MessageCircle,
+  ArrowUpRight,
+  ClipboardList,
+} from "lucide-react";
 import { isCollaboratorAuthenticated } from "@/lib/auth/collaborator";
-import { getQuoteRequestById, type QuoteConversationMessage, type QuoteConversationStatus } from "@/lib/quotes/service";
+import {
+  getQuoteRequestById,
+  type QuoteConversationMessage,
+  type QuoteConversationStatus,
+} from "@/lib/quotes/service";
 import { QuoteFinalizeForm } from "@/app/collaborateurs/demandes/_components/QuoteFinalizeForm";
+import { CollaboratorShell } from "@/app/collaborateurs/_components/CollaboratorShell";
+import { CollaboratorPageHeader } from "@/app/collaborateurs/_components/CollaboratorPageHeader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +32,8 @@ import { cn } from "@/lib/utils";
 const STATUS_LABEL: Record<string, string> = {
   pending: "En attente",
   in_review: "En revue",
-  finalized: "Finalise",
-  sent: "Envoye",
+  finalized: "Finalisee",
+  sent: "Envoyee",
 };
 
 const CONVERSATION_STATUS_LABEL: Record<QuoteConversationStatus, string> = {
@@ -49,11 +66,11 @@ type AssistantSummary = {
   metadata?: Record<string, unknown>;
 };
 
-type QuoteRequestDetailPageProps = {
+export default async function QuoteRequestDetailPage({
+  params,
+}: {
   params?: Promise<{ id?: string | string[] }>;
-};
-
-export default async function QuoteRequestDetailPage({ params }: QuoteRequestDetailPageProps) {
+}) {
   if (!(await isCollaboratorAuthenticated())) {
     redirect("/collaborateurs/login?unauthorized=1");
   }
@@ -71,92 +88,114 @@ export default async function QuoteRequestDetailPage({ params }: QuoteRequestDet
     notFound();
   }
 
-  const createdAt = format(new Date(request.createdAt), "dd MMMM yyyy - HH:mm", { locale: fr });
-  const conversationMessages = request.conversation ?? [];
   const assistantSummary = extractAssistantSummary(request.collectedData);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background pb-16">
-      <header className="border-b border-border/60 bg-background/95 backdrop-blur">
-        <div className="container mx-auto flex flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-primary">Demande de devis</p>
-            <h1 className="text-2xl font-semibold text-foreground sm:text-3xl">
-              {request.clientName ?? "Client Premium Solution"}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Reference {request.requestNumber ?? `#${request.id}`}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge variant="secondary">{STATUS_LABEL[request.status] ?? request.status}</Badge>
-            <Button variant="outline" asChild>
-              <Link href="/collaborateurs/demandes">Retour</Link>
+    <CollaboratorShell active="requests">
+      <div className="space-y-10">
+        <CollaboratorPageHeader
+          icon={<ClipboardList className="h-6 w-6" />}
+          title={request.clientName ?? "Fiche demande"}
+          description="Analysez les informations recueillies par Sophie, complEtez si besoin puis finalisez le devis client."
+          breadcrumbs={[
+            { label: "Demandes", href: "/collaborateurs/demandes" },
+            { label: request.requestNumber ?? `#${request.id.slice(0, 8)}` },
+          ]}
+          actions={
+            <Button asChild size="sm" variant="outline">
+              <Link href={"/collaborateurs/demandes" as Route}>Retour aux demandes</Link>
             </Button>
+          }
+        />
+
+        <div className="grid gap-6 xl:grid-cols-[1.75fr,1.25fr]">
+          <div className="space-y-6">
+            <Card className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
+              <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <CardTitle className="text-lg">Informations client</CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    Recue le {format(new Date(request.createdAt), "dd MMMM yyyy - HH:mm", { locale: fr })}
+                  </p>
+                </div>
+                <Badge variant="secondary">{STATUS_LABEL[request.status] ?? request.status}</Badge>
+              </CardHeader>
+              <CardContent className="grid gap-4 text-sm text-muted-foreground sm:grid-cols-2">
+                <InfoRow icon={<Mail className="h-4 w-4" />} label="Email" value={request.clientEmail ?? "Non renseigne"} />
+                <InfoRow icon={<Phone className="h-4 w-4" />} label="Telephone" value={request.clientPhone ?? "Non renseigne"} />
+                <InfoRow icon={<Building2 className="h-4 w-4" />} label="Structure" value={request.clientCompany ?? request.clientType ?? "Non renseigne"} />
+                <InfoRow icon={<MapPin className="h-4 w-4" />} label="Adresse" value={request.clientAddress ?? "Non renseignee"} />
+                <InfoRow icon={<Calendar className="h-4 w-4" />} label="Delai souhaite" value={request.preferredDate ?? "Non renseigne"} />
+                <InfoRow icon={<FileText className="h-4 w-4" />} label="Budget" value={request.budgetRange ?? "Non renseigne"} />
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
+              <CardHeader>
+                <CardTitle className="text-lg">Besoin exprime</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <InfoLine label="Profil" value={request.clientType ?? "Non precise"} />
+                <InfoLine label="Prestation" value={request.serviceType ?? "Non precise"} />
+                <InfoLine label="Frequence" value={request.serviceFrequency ?? "Non precise"} />
+                <InfoLine
+                  label="Surface"
+                  value={request.surfaceArea ? `${request.surfaceArea} m2` : "Non precise"}
+                />
+                <InfoLine label="Localisation" value={request.location ?? "Non renseignee"} />
+                <div>
+                  <p className="font-medium text-foreground">Notes</p>
+                  <p className="mt-1 text-muted-foreground">
+                    {request.notes ?? "Aucune note supplementaire."}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <QuoteFinalizeForm request={request} />
+          </div>
+
+          <div className="space-y-6">
+            <ConversationCard
+              messages={request.conversation ?? []}
+              status={request.conversationRecord?.status}
+              updatedAt={request.conversationRecord?.updatedAt}
+              summary={assistantSummary}
+            />
+
+            <Card className="border-border/70 bg-card/95 shadow-primary/10">
+              <CardHeader>
+                <CardTitle className="text-lg">Actions rapides</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">1.</strong> Verifier les donnees contact et la prestation avant de generer le devis.
+                </p>
+                <p>
+                  <strong className="text-foreground">2.</strong> Utiliser le formulaire pour renseigner les lignes et generer le PDF.
+                </p>
+                <p>
+                  <strong className="text-foreground">3.</strong> Envoyer le devis au client puis mettre a jour le statut.
+                </p>
+                <Button asChild variant="outline" className="w-full gap-2">
+                  <Link href={"/collaborateurs/demandes" as Route}>
+                    Revenir a la liste
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
-      </header>
-
-      <main className="container mx-auto space-y-8 px-4 py-10">
-        <section className="grid gap-6 lg:grid-cols-[1.1fr,0.9fr]">
-          <Card className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
-            <CardHeader>
-              <CardTitle className="text-lg">Informations client</CardTitle>
-              <p className="text-xs uppercase tracking-wide text-muted-foreground/80">Recu le {createdAt}</p>
-            </CardHeader>
-            <CardContent className="grid gap-4 text-sm text-muted-foreground sm:grid-cols-2">
-              <InfoRow icon={<Mail className="h-4 w-4" />} label="Email" value={request.clientEmail ?? "Non renseigne"} />
-              <InfoRow icon={<Phone className="h-4 w-4" />} label="Telephone" value={request.clientPhone ?? "Non renseigne"} />
-              <InfoRow
-                icon={<Building2 className="h-4 w-4" />}
-                label="Structure"
-                value={request.clientCompany ?? request.clientType ?? "Non renseigne"}
-              />
-              <InfoRow icon={<MapPin className="h-4 w-4" />} label="Adresse" value={request.clientAddress ?? "Non renseignee"} />
-              <InfoRow icon={<Calendar className="h-4 w-4" />} label="Delai souhaite" value={request.preferredDate ?? "Non renseigne"} />
-              <InfoRow icon={<FileText className="h-4 w-4" />} label="Budget" value={request.budgetRange ?? "Non renseigne"} />
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
-            <CardHeader>
-              <CardTitle className="text-lg">Besoin exprime</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-muted-foreground">
-              <InfoLine label="Profil" value={request.clientType ?? "Non precise"} />
-              <InfoLine label="Prestation" value={request.serviceType ?? "Non precise"} />
-              <InfoLine label="Frequence" value={request.serviceFrequency ?? "Non precise"} />
-              <InfoLine label="Surface" value={request.surfaceArea ? `${request.surfaceArea} m²` : "Non precise"} />
-              <InfoLine label="Localisation" value={request.location ?? "Non renseignee"} />
-              <div>
-                <p className="font-medium text-foreground">Notes</p>
-                <p className="mt-1">{request.notes ?? "Aucune note supplementaire."}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        <section>
-          <ConversationCard
-            messages={conversationMessages}
-            status={request.conversationRecord?.status}
-            updatedAt={request.conversationRecord?.updatedAt}
-            summary={assistantSummary}
-          />
-        </section>
-
-        <section>
-          <QuoteFinalizeForm request={request} />
-        </section>
-      </main>
-    </div>
+      </div>
+    </CollaboratorShell>
   );
 }
 
 function InfoRow({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-2">
-      <span className="mt-1 text-primary">{icon}</span>
+      <span className="mt-1 text-primary/80">{icon}</span>
       <div>
         <p className="text-xs uppercase tracking-wide text-muted-foreground/80">{label}</p>
         <p className="text-foreground">{value}</p>
@@ -365,4 +404,4 @@ function formatSurface(value?: string | number) {
     return trimmed;
   }
   return undefined;
-}
+}

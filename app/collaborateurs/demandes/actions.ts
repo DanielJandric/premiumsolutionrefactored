@@ -62,6 +62,9 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
     };
   }
 
+  const normalizedReference = ensureReferenceHasYear(payload.reference);
+  const normalizedServiceDate = payload.serviceDate ?? new Date().toISOString().slice(0, 10);
+
   if (!request.clientEmail) {
     return {
       success: false,
@@ -81,8 +84,8 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
 
   const documentPayload: CollaboratorDocumentPayload = {
     type: "quote",
-    reference: payload.reference,
-    service_date: payload.serviceDate,
+    reference: normalizedReference,
+    service_date: normalizedServiceDate,
     items: payload.items.map((item) => ({
       description: item.description,
       quantity: item.quantity,
@@ -106,7 +109,7 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
   };
 
   const pdfBuffer = await renderPdfWithPuppeteer(documentPayload);
-  const safeReference = payload.reference.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const safeReference = normalizedReference.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const filename = `${safeReference || "devis"}-${Date.now()}.pdf`;
   const storagePath = `devis/finalises/${filename}`;
 
@@ -131,6 +134,7 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
       notes: documentPayload.notes,
       payment_terms: documentPayload.payment_terms,
       finalized_by: payload.finalizedBy,
+      service_date: normalizedServiceDate,
     },
     subtotal: payload.subtotal,
     taxRate: payload.vatRate,
@@ -141,7 +145,8 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
     status: "sent",
     metadata: {
       finalized_by: payload.finalizedBy,
-      reference: payload.reference,
+      reference: normalizedReference,
+      service_date: normalizedServiceDate,
     },
   });
 
@@ -149,7 +154,8 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
     quoteId: quoteRecord.id as string,
     metadata: {
       finalized_by: payload.finalizedBy,
-      reference: payload.reference,
+      reference: normalizedReference,
+      service_date: normalizedServiceDate,
     },
   });
 
@@ -160,4 +166,14 @@ export async function finalizeQuoteAction(input: FinalizeQuoteForm) {
     success: true,
     quoteId: quoteRecord.id as string,
   };
+}
+
+function ensureReferenceHasYear(reference: string) {
+  const year = new Date().getFullYear();
+  const trimmed = reference?.trim() ?? "";
+  if (trimmed.startsWith(`${year}`)) {
+    return trimmed;
+  }
+  const sanitized = trimmed.replace(/^[0-9]{4}[-_/]?/, "");
+  return `${year}-${sanitized || "reference"}`;
 }

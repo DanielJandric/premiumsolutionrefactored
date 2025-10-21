@@ -110,7 +110,7 @@ export function QuoteChatBot() {
       console.error("Erreur enregistrement devis :", error);
       setSubmissionState("error");
       setSubmissionError(
-        "Un probleme technique est survenu lors de l'enregistrement. Vous pouvez reessayer ou contacter directement l'equipe au +41766074682.",
+        "Un probleme technique est survenu lors de l'enregistrement. Vous pouvez reessayer ou contacter directement l'equipe au +41 76 607 46 82.",
       );
     }
   };

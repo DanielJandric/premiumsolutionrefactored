@@ -32,7 +32,7 @@ export function Footer() {
               <p className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
                 <Link href="tel:+41766074682" className="hover:text-primary">
-                  +41766074682
+                  +41 76 607 46 82
                 </Link>
               </p>
               <p className="flex items-center gap-2">
@@ -77,6 +77,10 @@ export function Footer() {
               className="hover:text-primary"
             >
               Politique de confidentialité
+            </Link>
+            <span className="text-muted-foreground/60">•</span>
+            <Link href={"/collaborateurs" as Route} className="hover:text-primary">
+              Espace collaborateurs
             </Link>
             <span className="text-muted-foreground/60">•</span>
             <Link href={"/contact" as Route} className="hover:text-primary">

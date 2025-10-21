@@ -35,9 +35,9 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
     error?: string;
     success?: boolean;
   }>(() => ({
-    reference: request.requestNumber ?? `DEMANDE-${request.id.slice(0, 8)}`,
-    serviceDate: "",
-    paymentTerms: "Paiement à 30 jours net",
+    reference: buildDefaultReference(request.requestNumber, request.id),
+    serviceDate: new Date().toISOString().slice(0, 10),
+    paymentTerms: "Paiement a 30 jours net",
     notes: request.notes ?? "",
     finalizedBy: "",
     vatRate: VAT_DEFAULT,
@@ -46,10 +46,11 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
         id: cryptoId(),
         description: request.serviceType ?? "Prestation Premium Solution",
         quantity: 1,
-        unit: "unité",
+        unit: "unite",
         unitPrice: 0,
       },
     ],
+
   }));
 
   const subtotal = formState.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
@@ -97,7 +98,7 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
       const payload: FinalizeQuoteForm = {
         requestId: request.id,
         reference: formState.reference,
-        serviceDate: formState.serviceDate || undefined,
+        serviceDate: formState.serviceDate || new Date().toISOString().slice(0, 10),
         paymentTerms: formState.paymentTerms || undefined,
         notes: formState.notes || undefined,
         finalizedBy: formState.finalizedBy || undefined,
@@ -304,6 +305,15 @@ function AmountRow({ label, value, highlight }: { label: string; value: string; 
       <span>{value} CHF</span>
     </div>
   );
+}
+
+function buildDefaultReference(requestNumber?: string | null, requestId?: string) {
+  const year = new Date().getFullYear();
+  if (requestNumber && requestNumber.toString().trim().length > 0) {
+    const sanitized = requestNumber.replace(/^[0-9]{4}[-_/]?/, "");
+    return `${year}-${sanitized}`;
+  }
+  return `${year}-${(requestId ?? cryptoId()).slice(0, 8).toUpperCase()}`;
 }
 
 function cryptoId() {

@@ -64,10 +64,11 @@ export function renderDocumentHtml(
   const totals = computeTotals(payload);
   const items = payload.items ?? [];
   const client = payload.client ?? {};
-  const serviceDate = formatDate(payload.service_date);
+  const serviceDate = formatDate(
+    payload.service_date ?? payload.generatedAt.toISOString(),
+  );
   const generated = payload.generatedAt.toLocaleString("fr-CH");
   const logoDataUrl = payload.logoDataUrl;
-
   const title = payload.type === "invoice" ? "Facture" : "Devis";
 
   const rows = items
@@ -123,6 +124,7 @@ export function renderDocumentHtml(
       .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
       .logo { max-width: 140px; height: auto; }
       .section { margin-top: 28px; }
+      .company-name { font-size: 18px; font-weight: 600; color: #1B7F5B; margin: 0; }
       table { width: 100%; border-collapse: collapse; margin-top: 12px; }
       thead { background: #f3f4f6; }
       th, td {
@@ -156,6 +158,7 @@ export function renderDocumentHtml(
         ${serviceDate ? `<p>Date de service : ${serviceDate}</p>` : ""}
       </div>
       <div class="header-right">
+        <p class="company-name">Premium Solution</p>
         ${
           logoDataUrl
             ? `<img class="logo" src="${logoDataUrl}" alt="Logo Premium Solution" />`
@@ -223,7 +226,12 @@ export function renderDocumentHtml(
     }
 
     <div class="footer">
-      <p>Premium Solution CM Sarl Route de Crans 81 - 1978 Lens E-mail : info@premium-solution.ch T&eacute;l&eacute;phone : +41766074682 Site Internet : www.premium-solution.ch N&deg; IDE : CHE-338.407.073 N&deg; IDE : CHE-338.407.073 Banque : Banque UBS Titulaire du compte : Premium Solution CM Sarl BIC : UBSWCHZH39L IBAN : CH100026826812976201J</p>
+      <p>Premium Solution CM Sarl Route de Crans 81 - 1978 Lens</p>
+      <p>info@premium-solution.ch +41 76 607 46 82</p>
+      <p>www.premium-solution.ch</p>
+      <p>N&deg; IDE : CHE-338.407.073</p>
+      <p>Banque UBS &bull; Titulaire : Premium Solution CM Sarl</p>
+      <p>BIC : UBSWCHZH39L &bull; IBAN : CH100026826812976201J</p>
       <p class="note">Document g&eacute;n&eacute;r&eacute; automatiquement via le portail collaborateurs Premium Solution.</p>
     </div>
   </body>

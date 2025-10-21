@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence, useScroll } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
@@ -43,62 +43,67 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const visibilityRef = useRef(true);
 
   useEffect(() => {
+    lastScrollY.current = window.scrollY;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const currentY = window.scrollY;
+      const previousY = lastScrollY.current;
+      const threshold = 8;
+
+      let nextVisible = visibilityRef.current;
+
+      if (currentY < 80) {
+        nextVisible = true;
+      } else if (currentY > previousY + threshold) {
+        nextVisible = false;
+      } else if (currentY < previousY - threshold) {
+        nextVisible = true;
+      }
+
+      if (nextVisible !== visibilityRef.current) {
+        visibilityRef.current = nextVisible;
+        setIsVisible(nextVisible);
+      }
+
+      setScrolled(currentY > 10);
+      lastScrollY.current = currentY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b transition-all duration-300",
-        scrolled
-          ? "border-border bg-background/95 backdrop-blur-2xl shadow-lg shadow-primary/5"
-          : "border-border/80 bg-background/80 backdrop-blur-xl dark:border-border/60"
+        "sticky top-0 z-50 w-full border-b transition-transform duration-300",
+        "bg-gradient-to-r from-background/95 via-primary/10 to-background/95 backdrop-blur-2xl",
+        isVisible ? "translate-y-0 shadow-lg shadow-primary/10" : "-translate-y-full",
+        scrolled ? "border-border" : "border-border/70 dark:border-border/50",
       )}
     >
-      <div className="border-b border-border bg-primary text-primary-foreground dark:bg-primary/40">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-1.5 text-xs md:text-sm">
-          <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="tel:+41766074682"
-              className="flex items-center gap-2 transition hover:opacity-90"
-            >
-              <Phone className="h-4 w-4" />
-              +41766074682
-            </a>
-            <a
-              href="mailto:info@premium-solution.ch"
-              className="flex items-center gap-2 transition hover:opacity-90"
-            >
-              <Mail className="h-4 w-4" />
-              info@premium-solution.ch
-            </a>
-          </div>
-          <span className="hidden text-sm font-medium md:block">
-            Interventions en Suisse romande
-          </span>
-        </div>
-      </div>
-
-      <div className="container flex items-center justify-between py-2.5 md:py-3">
+      <div className="container flex items-center justify-between py-3 md:py-4">
         <Link
           href="/"
-          className="relative flex items-center gap-2 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5 dark:hover:border-primary/40 dark:hover:bg-primary/10"
+          className="relative flex items-center gap-3 rounded-2xl border border-transparent px-1.5 py-0.5 transition hover:border-primary/30 hover:bg-primary/5 dark:hover:border-primary/40 dark:hover:bg-primary/10"
         >
           <Image
             src="/logo.png"
-            alt="Premium Solution"
-            width={144}
-            height={44}
+            alt="Logo Premium Solution"
+            width={64}
+            height={64}
+            className="h-12 w-auto drop-shadow-[0_4px_8px_rgba(21,103,71,0.25)]"
             priority
-            className="h-8 w-auto [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.15))] sm:h-9 md:h-10"
-            sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 176px"
+            sizes="64px"
           />
+          <span className="text-lg font-bold uppercase tracking-[0.4em] text-[#156747] sm:text-2xl">
+            Premium Solution
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -168,7 +173,7 @@ export function Header() {
           <Button asChild variant="gradient" className="shadow-glow">
             <Link href="/devis">Obtenir un devis</Link>
           </Button>
-          <ThemeToggle className="hidden md:inline-flex" />
+         <ThemeToggle className="hidden md:inline-flex" />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">

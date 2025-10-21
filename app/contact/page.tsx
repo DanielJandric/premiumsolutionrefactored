@@ -6,7 +6,7 @@ import { ContactForm } from "@/components/shared/ContactForm";
 const contactDetails = [
   {
     label: "Téléphone",
-    value: "+41766074682",
+    value: "+41 76 607 46 82",
     href: "tel:+41766074682",
   },
   {

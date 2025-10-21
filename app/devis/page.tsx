@@ -44,7 +44,7 @@ export default function DevisPage() {
             </ol>
             <div className="rounded-3xl border border-dashed border-primary/30 bg-primary/5 p-6 text-sm text-muted-foreground">
               <p>
-                Besoin d&apos;un echange direct ou d&apos;une estimation urgente ? Lancez la conversation ci-dessous ou contactez-nous au +41766074682.
+                Besoin d&apos;un echange direct ou d&apos;une estimation urgente ? Lancez la conversation ci-dessous ou contactez-nous au +41 76 607 46 82.
               </p>
             </div>
           </div>
