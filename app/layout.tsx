@@ -23,9 +23,67 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Premium Solution",
+  metadataBase: new URL("https://www.premium-solution.ch"),
+  title: {
+    default: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
+    template: "%s | Premium Solution CM Sàrl",
+  },
   description:
-    "Premium Solution - Conciergerie et nettoyage professionnel en Suisse romande.",
+    "Premium Solution CM Sàrl accompagne gérances, PPE, entreprises et particuliers en Suisse romande avec des prestations de conciergerie, nettoyage professionnel et facility management haut de gamme.",
+  keywords: [
+    "Premium Solution",
+    "conciergerie Suisse romande",
+    "nettoyage professionnel",
+    "facility management",
+    "conciergerie entreprise",
+    "conciergerie PPE",
+    "nettoyage fin de bail",
+    "services de nettoyage Valais",
+  ],
+  applicationName: "Premium Solution",
+  authors: [{ name: "Premium Solution CM Sàrl", url: "https://www.premium-solution.ch" }],
+  creator: "Premium Solution CM Sàrl",
+  publisher: "Premium Solution CM Sàrl",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
+    description:
+      "Conciergerie, nettoyage professionnel et services premium pour gérances, entreprises et particuliers en Suisse romande.",
+    url: "https://www.premium-solution.ch",
+    siteName: "Premium Solution CM Sàrl",
+    images: [
+      {
+        url: "/images/hero-professional.png",
+        width: 1200,
+        height: 630,
+        alt: "Premium Solution - Conciergerie et nettoyage haut de gamme",
+      },
+    ],
+    locale: "fr_CH",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
+    description:
+      "Prestations de conciergerie et nettoyage premium pour gérances, entreprises et particuliers en Suisse romande.",
+    creator: "@PremiumSolution",
+    images: ["/images/hero-professional.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  category: "conciergerie et nettoyage professionnel",
 };
 
 interface RootLayoutProps {
