@@ -26,7 +26,23 @@ const STATUS_VARIANT: Record<string, "outline" | "secondary" | "default"> = {
   sent: "default",
 };
 
-export default async function QuoteRequestsPage() {
+type StatusFilter = "all" | "active" | "pending" | "in_review" | "finalized" | "sent";
+
+const STATUS_FILTER_LABEL: Record<StatusFilter, string> = {
+  all: "Toutes les demandes",
+  active: "Demandes à traiter",
+  pending: "Demandes en attente",
+  in_review: "Demandes en revue",
+  finalized: "Demandes finalisées/envoyées",
+  sent: "Demandes envoyées",
+};
+
+export default async function QuoteRequestsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const resolvedSearchParams = (await searchParams) ?? {};
   if (!(await isCollaboratorAuthenticated())) {
     redirect("/collaborateurs/login?unauthorized=1");
   }
@@ -41,6 +57,32 @@ export default async function QuoteRequestsPage() {
     },
     { total: 0 } as Record<string, number>,
   );
+
+  const rawFilter =
+    typeof resolvedSearchParams?.status === "string" ? resolvedSearchParams.status.toLowerCase() : undefined;
+  const activeFilter: StatusFilter = (["all", "active", "pending", "in_review", "finalized", "sent"] as const).includes(
+    rawFilter as StatusFilter,
+  )
+    ? (rawFilter as StatusFilter)
+    : "all";
+
+  const filteredRequests = requests.filter((request) => {
+    switch (activeFilter) {
+      case "pending":
+        return request.status === "pending";
+      case "in_review":
+        return request.status === "in_review";
+      case "active":
+        return request.status === "pending" || request.status === "in_review";
+      case "finalized":
+        return request.status === "finalized" || request.status === "sent";
+      case "sent":
+        return request.status === "sent";
+      case "all":
+      default:
+        return true;
+    }
+  });
 
   return (
     <CollaboratorShell active="requests">
@@ -70,17 +112,22 @@ export default async function QuoteRequestsPage() {
           <span className="rounded-full border border-border/60 bg-background/70 px-3 py-1">
             Finalisees : {(statusCounters.finalized ?? 0) + (statusCounters.sent ?? 0)}
           </span>
+          <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
+            Filtre actif : {STATUS_FILTER_LABEL[activeFilter]}
+          </span>
         </section>
 
-        {requests.length === 0 ? (
+        {filteredRequests.length === 0 ? (
           <Card className="border-border/70 bg-card/95 shadow-sm shadow-primary/5">
             <CardContent className="py-12 text-center text-sm text-muted-foreground">
-              Aucune demande n&apos;est disponible pour le moment. Lorsqu&apos;un prospect valide son resume, la fiche apparait ici.
+              {requests.length === 0
+                ? "Aucune demande n'est disponible pour le moment. Lorsqu'un prospect valide son resume, la fiche apparait ici."
+                : "Aucune demande ne correspond au filtre sélectionné."}
             </CardContent>
           </Card>
         ) : (
           <div className="grid gap-5">
-            {requests.map((request) => (
+            {filteredRequests.map((request) => (
               <Card key={request.id} className="border-border/60 bg-card/95 shadow-md shadow-primary/10">
                 <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3">

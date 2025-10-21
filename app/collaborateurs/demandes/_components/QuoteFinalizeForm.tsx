@@ -5,7 +5,7 @@ import type { QuoteRequestRecord } from "@/lib/quotes/service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { finalizeQuoteAction, updateQuoteRequestStatusAction, type FinalizeQuoteForm } from "@/app/collaborateurs/demandes/actions";
+import { finalizeQuoteAction, updateQuoteRequestStatusAction, convertQuoteToInvoiceAction, type FinalizeQuoteForm } from "@/app/collaborateurs/demandes/actions";
 import { cn } from "@/lib/utils";
 
 interface QuoteFinalizeFormProps {
@@ -24,6 +24,7 @@ const VAT_DEFAULT = 0.081;
 
 export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
   const [isPending, startTransition] = useTransition();
+  const [isConverting, startConvert] = useTransition();
   const [formState, setFormState] = useState<{
     reference: string;
     serviceDate: string;
@@ -34,6 +35,10 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
     items: FormItem[];
     error?: string;
     success?: boolean;
+    previewUrl?: string;
+    quoteId?: string;
+    convertMessage?: string;
+    convertError?: string;
   }>(() => ({
     reference: buildDefaultReference(request.requestNumber, request.id),
     serviceDate: new Date().toISOString().slice(0, 10),
@@ -50,12 +55,13 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
         unitPrice: 0,
       },
     ],
-
+    quoteId: request.quoteId ?? undefined,
   }));
 
   const subtotal = formState.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
   const vatAmount = subtotal * formState.vatRate;
   const totalAmount = subtotal + vatAmount;
+  const activeQuoteId = formState.quoteId ?? request.quoteId ?? undefined;
 
   const updateStatus = (status: "pending" | "in_review") => {
     startTransition(async () => {
@@ -94,34 +100,116 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
   };
 
   const handleSubmit = () => {
+
     startTransition(async () => {
+
       const payload: FinalizeQuoteForm = {
+
         requestId: request.id,
+
         reference: formState.reference,
+
         serviceDate: formState.serviceDate || new Date().toISOString().slice(0, 10),
+
         paymentTerms: formState.paymentTerms || undefined,
+
         notes: formState.notes || undefined,
+
         finalizedBy: formState.finalizedBy || undefined,
+
         subtotal: Number(subtotal.toFixed(2)),
+
         vatRate: formState.vatRate,
+
         totalAmount: Number(totalAmount.toFixed(2)),
+
         items: formState.items.map((item) => ({
+
           description: item.description,
+
           quantity: item.quantity,
+
           unit: item.unit,
+
           unitPrice: item.unitPrice,
+
         })),
+
       };
+
+
 
       const result = await finalizeQuoteAction(payload);
 
+
+
       if (result.success) {
-        setFormState((prev) => ({ ...prev, success: true, error: undefined }));
+        setFormState((prev) => ({
+          ...prev,
+          success: true,
+          error: undefined,
+          previewUrl: result.pdfUrl ?? prev.previewUrl,
+          quoteId: result.quoteId ?? prev.quoteId,
+          convertMessage: undefined,
+          convertError: undefined,
+        }));
+        if (typeof window !== "undefined" && result.pdfUrl) {
+          window.open(result.pdfUrl, "_blank", "noopener");
+        }
       } else {
-        setFormState((prev) => ({ ...prev, success: false, error: "Validation impossible. Merci de vérifier le formulaire." }));
+        setFormState((prev) => ({
+          ...prev,
+          success: false,
+          error: "Validation impossible. Merci de verifier le formulaire.",
+          convertMessage: undefined,
+        }));
       }
     });
   };
+
+  const handleConvert = () => {
+    if (!activeQuoteId) {
+      return;
+    }
+
+    startConvert(async () => {
+      try {
+        const result = await convertQuoteToInvoiceAction({
+          requestId: request.id,
+          quoteId: activeQuoteId,
+        });
+
+        if (result.success) {
+          setFormState((prev) => ({
+            ...prev,
+            convertMessage: "Facture generee et ouverte dans un nouvel onglet.",
+            convertError: undefined,
+          }));
+          if (typeof window !== "undefined" && result.pdfUrl) {
+            window.open(result.pdfUrl, "_blank", "noopener");
+          }
+        } else {
+          setFormState((prev) => ({
+            ...prev,
+            convertError: result.error ?? "Conversion impossible.",
+            convertMessage: undefined,
+          }));
+        }
+      } catch (error) {
+        setFormState((prev) => ({
+          ...prev,
+          convertError:
+            error instanceof Error
+              ? error.message
+              : "Erreur lors de la conversion en facture.",
+          convertMessage: undefined,
+        }));
+      }
+    });
+  };
+
+
+
 
   return (
     <div className="space-y-6 rounded-3xl border border-border/70 bg-card/95 p-6 shadow-xl shadow-primary/10">
@@ -263,13 +351,30 @@ export function QuoteFinalizeForm({ request }: QuoteFinalizeFormProps) {
 
           {formState.error ? (
             <p className="text-sm text-destructive">{formState.error}</p>
-          ) : formState.success ? (
-            <p className="text-sm text-primary">Le devis a été généré et stocké dans Supabase.</p>
+          ) : null}
+          {formState.success ? (
+            <p className="text-sm text-primary">Le devis a ete genere et ouvert pour visualisation. Retrouvez-le dans Supabase.</p>
+          ) : null}
+          {formState.convertError ? (
+            <p className="text-sm text-destructive">{formState.convertError}</p>
+          ) : formState.convertMessage ? (
+            <p className="text-sm text-primary">{formState.convertMessage}</p>
           ) : null}
 
           <Button type="button" className="w-full" onClick={handleSubmit} disabled={isPending}>
-            Générer le devis PDF
+            G�n�rer le devis PDF
           </Button>
+          {activeQuoteId ? (
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              onClick={handleConvert}
+              disabled={isPending || isConverting}
+            >
+              {isConverting ? "Conversion..." : "Convertir en facture"}
+            </Button>
+          ) : null}
         </aside>
       </div>
     </div>

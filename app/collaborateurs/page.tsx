@@ -20,6 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Route } from "next";
 import type { ComponentType } from "react";
+import { cn } from "@/lib/utils";
 
 const QUICK_ACTIONS: {
   title: string;
@@ -28,7 +29,7 @@ const QUICK_ACTIONS: {
   icon: ComponentType<{ className?: string }>;
 }[] = [
   {
-    title: "Ouvrir l&apos;assistant",
+    title: "Ouvrir l'assistant",
     description: "Collecter une nouvelle demande et generer un devis ou une facture.",
     href: "/collaborateurs/chat" as Route,
     icon: MessageSquare,
@@ -74,6 +75,7 @@ export default async function CollaboratorDashboardPage() {
 
   const kpis = [
     {
+      slug: "received",
       label: "Demandes recues",
       value: totalRequests,
       helper:
@@ -81,24 +83,43 @@ export default async function CollaboratorDashboardPage() {
           ? `+${requestsThisWeek} cette semaine`
           : "Aucune nouvelle cette semaine",
       icon: TrendingUp,
+      href: "/collaborateurs/demandes?status=all" as Route,
+      cardClass:
+        "bg-gradient-to-br from-emerald-50 via-emerald-100 to-white border-emerald-100 shadow-emerald-100/60",
+      iconClass: "border-emerald-300 bg-emerald-100 text-emerald-700",
     },
     {
+      slug: "active",
       label: "Demandes a traiter",
       value: activeCount,
       helper: `${pendingCount} en attente / ${inReviewCount} en revue`,
       icon: ClipboardList,
+      href: "/collaborateurs/demandes?status=active" as Route,
+      cardClass:
+        "bg-gradient-to-br from-rose-50 via-rose-100 to-white border-rose-100 shadow-rose-100/60",
+      iconClass: "border-rose-200 bg-rose-100 text-rose-700",
     },
     {
+      slug: "finalized",
       label: "Demandes finalisees",
       value: finalizedCount,
       helper: `${totalRequests === 0 ? 0 : Math.round((finalizedCount / totalRequests) * 100)}% du total`,
       icon: LayoutDashboard,
+      href: "/collaborateurs/demandes?status=finalized" as Route,
+      cardClass:
+        "bg-gradient-to-br from-sky-50 via-sky-100 to-white border-sky-100 shadow-sky-100/60",
+      iconClass: "border-sky-200 bg-sky-100 text-sky-700",
     },
     {
+      slug: "documents",
       label: "Documents archives",
       value: documentsCount,
       helper: "Dernieres sauvegardes via Supabase Storage",
       icon: Files,
+      href: "/collaborateurs/documents?type=devis" as Route,
+      cardClass:
+        "bg-gradient-to-br from-emerald-100 via-emerald-200 to-white border-emerald-200 shadow-emerald-200/60",
+      iconClass: "border-emerald-300 bg-emerald-200 text-emerald-800",
     },
   ];
 
@@ -115,20 +136,37 @@ export default async function CollaboratorDashboardPage() {
           {kpis.map((kpi) => {
             const Icon = kpi.icon;
             return (
-              <Card key={kpi.label} className="border-border/70 bg-card/95 shadow-lg shadow-primary/10">
-                <CardContent className="flex flex-col gap-2 px-6 py-5">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground/80">
-                      {kpi.label}
-                    </p>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                  </div>
-                  <p className="text-3xl font-semibold text-foreground">{kpi.value}</p>
-                  <p className="text-xs text-muted-foreground">{kpi.helper}</p>
-                </CardContent>
-              </Card>
+              <Link
+                key={kpi.label}
+                href={kpi.href}
+                prefetch
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/40 rounded-3xl"
+              >
+                <Card
+                  className={cn(
+                    "border border-border/60 bg-card/95 shadow-lg transition hover:-translate-y-1 hover:shadow-xl",
+                    kpi.cardClass,
+                  )}
+                >
+                  <CardContent className="flex flex-col gap-2 px-6 py-5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground/80">
+                        {kpi.label}
+                      </p>
+                      <span
+                        className={cn(
+                          "flex h-9 w-9 items-center justify-center rounded-xl border bg-primary/10 text-primary transition group-hover:scale-105",
+                          kpi.iconClass,
+                        )}
+                      >
+                        <Icon className="h-4 w-4" aria-hidden />
+                      </span>
+                    </div>
+                    <p className="text-3xl font-semibold text-foreground">{kpi.value}</p>
+                    <p className="text-xs text-muted-foreground">{kpi.helper}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </section>

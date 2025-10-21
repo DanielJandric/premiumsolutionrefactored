@@ -102,10 +102,10 @@ export async function saveDocumentAction(payload: SaveDocPayload) {
     .replace(/[:T]/g, "")}.pdf`;
   const path = `${directory}/${filename}`;
 
-  await uploadDocumentToSupabase(path, pdfBuffer, {
+  const { signedUrl } = await uploadDocumentToSupabase(path, pdfBuffer, {
     contentType: "application/pdf",
   });
 
-  return { path };
+  return { path, signedUrl: signedUrl ?? null };
 }
 

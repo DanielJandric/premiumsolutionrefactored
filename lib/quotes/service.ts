@@ -54,6 +54,32 @@ export interface QuoteRequestRecord extends QuoteRequestInput {
   conversationRecord?: QuoteConversationRecord | null;
 }
 
+export interface QuoteRecord {
+  id: string;
+  quoteNumber: string;
+  requestId: string | null;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string | null;
+  clientAddress: string | null;
+  clientType: "gerances" | "entreprise" | "particulier";
+  serviceType: string;
+  serviceFrequency: string | null;
+  surfaceArea: number | null;
+  location: string | null;
+  details: Record<string, unknown> | null;
+  subtotal: number | null;
+  taxRate: number | null;
+  taxAmount: number | null;
+  totalAmount: number | null;
+  pdfUrl: string | null;
+  pdfFilename: string | null;
+  status: string;
+  metadata: Record<string, unknown> | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 function generateRequestNumber() {
   const now = new Date();
   const year = now.getFullYear();
@@ -210,6 +236,27 @@ export async function updateQuoteRequestStatus(
   return mapQuoteRequestRow(data);
 }
 
+
+export async function getQuoteById(id: string) {
+  const supabase = createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("quotes")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return mapQuoteRow(data);
+}
+
 export interface QuoteFinalizationInput {
   requestId: string;
   clientName: string;
@@ -320,6 +367,45 @@ async function fetchConversationRow(
   }
 
   return bySession.data ?? null;
+}
+
+function mapQuoteRow(row: Record<string, unknown>): QuoteRecord {
+  return {
+    id: String(row["id"]),
+    quoteNumber: (row["quote_number"] as string) ?? "",
+    requestId: (row["request_id"] as string) ?? null,
+    clientName: (row["client_name"] as string) ?? "Client Premium Solution",
+    clientEmail: (row["client_email"] as string) ?? "",
+    clientPhone: (row["client_phone"] as string) ?? null,
+    clientAddress: (row["client_address"] as string) ?? null,
+    clientType: (row["client_type"] as QuoteRequestInput["clientType"]) ?? "particulier",
+    serviceType: (row["service_type"] as string) ?? "Prestation",
+    serviceFrequency: (row["service_frequency"] as string) ?? null,
+    surfaceArea:
+      typeof row["surface_area"] === "number" ? (row["surface_area"] as number) : null,
+    location: (row["location"] as string) ?? null,
+    details:
+      row["details"] && typeof row["details"] === "object"
+        ? (row["details"] as Record<string, unknown>)
+        : null,
+    subtotal:
+      typeof row["subtotal"] === "number" ? (row["subtotal"] as number) : null,
+    taxRate:
+      typeof row["tax_rate"] === "number" ? (row["tax_rate"] as number) : null,
+    taxAmount:
+      typeof row["tax_amount"] === "number" ? (row["tax_amount"] as number) : null,
+    totalAmount:
+      typeof row["total_amount"] === "number" ? (row["total_amount"] as number) : null,
+    pdfUrl: (row["pdf_url"] as string) ?? null,
+    pdfFilename: (row["pdf_filename"] as string) ?? null,
+    status: (row["status"] as string) ?? "pending",
+    metadata:
+      row["metadata"] && typeof row["metadata"] === "object"
+        ? (row["metadata"] as Record<string, unknown>)
+        : null,
+    createdAt: String(row["created_at"]),
+    updatedAt: String(row["updated_at"]),
+  };
 }
 
 function mapQuoteRequestRow(row: Record<string, unknown>): QuoteRequestRecord {

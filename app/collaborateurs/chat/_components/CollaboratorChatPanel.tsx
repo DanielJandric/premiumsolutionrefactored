@@ -58,14 +58,17 @@ export function CollaboratorChatPanel() {
       try {
         setPendingId(messageId);
         const docType = payload.type as "quote" | "invoice";
-        await saveDocumentAction({
+        const result = await saveDocumentAction({
           type: docType,
           data: payload,
         });
         setFeedback((prev) => ({
           ...prev,
-          [messageId]: "Document enregistré dans Supabase.",
+          [messageId]: "Document enregistre et ouvert dans un nouvel onglet.",
         }));
+        if (typeof window !== "undefined" && result && result.signedUrl) {
+          window.open(result.signedUrl, "_blank", "noopener");
+        }
       } catch (error) {
         setFeedback((prev) => ({
           ...prev,

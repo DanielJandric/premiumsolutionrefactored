@@ -76,7 +76,7 @@ export async function uploadDocumentToSupabase(
   path: string,
   payload: string | Uint8Array | Buffer,
   options?: { contentType?: string },
-) {
+): Promise<{ signedUrl: string | null }> {
   const supabase = createSupabaseServerClient();
   const bucket = process.env.SUPABASE_STORAGE_BUCKET;
 
@@ -94,4 +94,14 @@ export async function uploadDocumentToSupabase(
   if (error) {
     throw error;
   }
+
+  const { data: signed, error: signedError } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(path, 60 * 30);
+
+  if (signedError) {
+    throw signedError;
+  }
+
+  return { signedUrl: signed?.signedUrl ?? null };
 }
