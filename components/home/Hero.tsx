@@ -8,19 +8,21 @@ import { Badge } from "@/components/ui/badge";
 import { SVGPatterns, AnimatedBlob } from "@/components/shared/SVGPatterns";
 
 const metrics = [
-  { label: "Fondee en", value: "2020", accent: "" },
-  { label: "Collaborateurs certifies", value: "30+", accent: "" },
+  { label: "Fondée en", value: "2020", accent: "" },
+  { label: "Collaborateurs certifiés", value: "30+", accent: "" },
   { label: "Clients satisfaits", value: "250+", accent: "" },
 ];
 
 const highlights = [
   {
-    title: "Conciergerie signature",
-    description: "Gestion complete, fin de bail et remise en etat pilotees par un coordinateur dedie.",
+    title: "Garanties & réactivité",
+    description:
+      "Fin de bail avec remise des clés garantie, astreinte pour les urgences et coordinateur dédié qui suit votre dossier du devis au rapport final.",
   },
   {
-    title: "Maison valaisanne",
-    description: "Disponibilite 24/7 et protocoles verifies pour chaque residence ou site professionnel.",
+    title: "Procédures digitalisées",
+    description:
+      "Checklists, rapports photo, chatbot devis et facturation automatisée : un suivi transparent et disponible en permanence.",
   },
 ];
 
@@ -51,7 +53,7 @@ export function Hero() {
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1.05fr),minmax(0,0.95fr)] lg:items-center">
           <div className="space-y-8 text-center lg:max-w-2xl lg:text-left">
             <Badge className="mx-auto w-fit border border-primary/20 bg-primary/10 text-primary dark:border-primary/30 dark:bg-primary/20 lg:mx-0">
-              Conciergerie & nettoyage premium
+              Conciergerie & Nettoyage premium
             </Badge>
 
             <div className="space-y-6">
@@ -61,7 +63,11 @@ export function Hero() {
                 transition={{ duration: 0.6 }}
                 className="text-hero text-gradient-animate"
               >
-                Premium Solution au service de vos espaces d\u2019exception.
+                <span className="block">Premium Solution</span>
+                <span className="mt-4 block text-balance font-display text-[clamp(1.6rem,1.28rem+1.1vw,2.45rem)] text-foreground">
+                  Votre partenaire conciergerie & nettoyage en{" "}
+                  <span className="text-primary font-semibold">Suisse romande</span>
+                </span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 24 }}
@@ -69,9 +75,9 @@ export function Hero() {
                 transition={{ duration: 0.65, delay: 0.05 }}
                 className="mx-auto max-w-2xl text-subtitle text-muted-foreground lg:mx-0"
               >
-                Depuis 2020, Premium Solution accompagne gerances, PPE, entreprises et particuliers avec une equipe de
-                trente collaborateurs certifies. Interventions rapides, controle qualite systematique et option
-                ecologique sur demande.
+                Depuis 2020, Premium Solution accompagne gérances, PPE, entreprises et particuliers avec une équipe de
+                trente collaborateurs certifiés. Interventions rapides, contrôle qualité systématique et option
+                écologique sur demande.
               </motion.p>
             </div>
 
@@ -90,7 +96,7 @@ export function Hero() {
                 size="lg"
                 className="min-w-[200px] border border-primary/25 bg-white/70 text-primary shadow-sm backdrop-blur transition hover:border-primary/40 hover:bg-white/80 dark:border-primary/30 dark:bg-primary/20 dark:text-primary-foreground dark:hover:bg-primary/25"
               >
-                <Link href="/contact">Contacter l\u2019equipe</Link>
+                <Link href="/contact">Contacter l’équipe</Link>
               </Button>
               <Button
                 asChild
@@ -102,25 +108,27 @@ export function Hero() {
               </Button>
             </motion.div>
 
-            <motion.ul
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="grid gap-4 text-left text-sm text-muted-foreground sm:grid-cols-2"
-            >
-              {highlights.map((item, index) => (
-                <li
-                  key={item.title}
-                  className="rounded-2xl border border-border/60 bg-white/80 p-4 shadow-sm shadow-[rgba(32,42,36,0.06)] backdrop-blur dark:border-border/40 dark:bg-white/10 dark:text-muted-foreground/90"
-                >
-                  <span className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/70">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <p className="mt-2 text-base font-semibold text-foreground dark:text-foreground/90">{item.title}</p>
-                  <p className="mt-2 leading-relaxed">{item.description}</p>
-                </li>
-              ))}
-            </motion.ul>
+            {highlights.length > 0 ? (
+              <motion.ul
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="grid gap-4 text-left text-sm text-muted-foreground sm:grid-cols-2"
+              >
+                {highlights.map((item, index) => (
+                  <li
+                    key={item.title}
+                    className="rounded-2xl border border-border/60 bg-white/80 p-4 shadow-sm shadow-[rgba(32,42,36,0.06)] backdrop-blur dark:border-border/40 dark:bg-white/10 dark:text-muted-foreground/90"
+                  >
+                    <span className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/70">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-2 text-base font-semibold text-foreground dark:text-foreground/90">{item.title}</p>
+                    <p className="mt-2 leading-relaxed">{item.description}</p>
+                  </li>
+                ))}
+              </motion.ul>
+            ) : null}
           </div>
 
           <motion.div

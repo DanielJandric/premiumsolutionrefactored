@@ -4,42 +4,27 @@ import { AnimatedSection } from "@/components/shared/AnimatedSection";
 const steps = [
   {
     number: "01",
-    title: "Exploration & visite des lieux",
+    title: "Contact & qualification",
     description:
-      "Un coordinateur se deplace pour comprendre vos attentes, cartographier les espaces et relever les contraintes horaires ou techniques.",
-    highlights: [
-      "Audit des surfaces et materiaux sensibles",
-      "Analyse des flux occupants et exigences de discretion",
-      "Releve photo pour le plan d\u2019intervention",
-    ],
+      "Nous échangeons par téléphone, formulaire ou chatbot pour cerner votre besoin (gérance, entreprise ou particulier) et planifier la visite technique si nécessaire.",
     imageSrc: "/images/process-step-1.png",
-    imageAlt: "Consultation Premium Solution dans un hall lumineux.",
+    imageAlt: "Responsable Premium Solution serrant la main d’une cliente dans un hall d’immeuble.",
   },
   {
     number: "02",
-    title: "Signature du protocol premium",
+    title: "Devis premium personnalisé",
     description:
-      "Nous composons un protocole sur mesure : frequence, checklists, equipe dediee et options hospitality. Le devis detaille est remis sous 48 h.",
-    highlights: [
-      "Plan d\u2019action personnalise et calendrier partage",
-      "Selection de l\u2019equipe et dotation du materiel",
-      "Options ecologiques (+10 %) et services complementaires",
-    ],
+      "Sophie, notre assistante virtuelle, collecte les informations utiles. Un devis détaillé est généré puis envoyé avec estimation et validité.",
     imageSrc: "/images/process-step-2.png",
-    imageAlt: "Preparation du materiel de conciergerie premium.",
+    imageAlt: "Nettoyage précis d’une surface de bureau avec les produits Premium Solution.",
   },
   {
     number: "03",
-    title: "Interventions & pilotage continu",
+    title: "Intervention & suivi",
     description:
-      "Nos collaborateurs orchestrent chaque mission avec precision. Vous recevez rapports photo, indicateurs et recommandations, tandis qu\u2019un coordinateur assure le suivi.",
-    highlights: [
-      "Supervision terrain et astreinte 24/7",
-      "Reporting digital et alertes en temps reel",
-      "Optimisation continue des parcours et couts",
-    ],
+      "Planification rapide, équipe dédiée et contrôle qualité sur site. Rapport d’intervention et suivi régulier assurés par nos coordinateurs.",
     imageSrc: "/images/process-step-3.png",
-    imageAlt: "Equipe Premium Solution intervenant dans une residence de prestige.",
+    imageAlt: "Équipe Premium Solution préparant le matériel dans un appartement lumineux.",
   },
 ];
 
@@ -50,12 +35,8 @@ export function Process() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-eyebrow text-primary/70">Processus premium</p>
           <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-            Une trajectoire accompagnee de la premiere visite au reporting
+            Un parcours client fluide du premier contact à la prestation
           </h2>
-          <p className="mt-4 text-base text-muted-foreground">
-            Transparence, reactivite et sens du detail pilotent chaque dossier. Vos interlocuteurs restent les memes du
-            cadrage a la supervision quotidienne.
-          </p>
         </div>
 
         <div className="relative">
@@ -75,14 +56,6 @@ export function Process() {
                       <h3 className="text-xl font-semibold text-foreground dark:text-foreground/90">{step.title}</h3>
                     </div>
                     <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
-                    <ul className="grid gap-2 text-sm text-muted-foreground">
-                      {step.highlights.map((item) => (
-                        <li key={item} className="flex items-start gap-2">
-                          <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                   <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-white/80 shadow-lg shadow-primary/10 dark:border-border/40 dark:bg-white/[0.04]">
                     <Image

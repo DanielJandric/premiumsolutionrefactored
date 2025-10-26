@@ -4,24 +4,35 @@ import { Badge } from "@/components/ui/badge";
 
 const features = [
   {
-    title: "Equipe formee et certifiee",
+    title: "Équipe formée et certifiée",
     description:
-      "30 collaborateurs Premium Solution, formes aux standards suisses et equipes de materiel professionnel adapte a chaque typologie de site.",
+      "30 collaborateurs Premium Solution, formés aux standards suisses et équipés de matériel professionnel adapté à chaque typologie de site.",
   },
   {
-    title: "Garanties et reactivite",
+    title: "Garanties & réactivité",
     description:
-      "Fin de bail avec remise des cles garantie, astreinte pour les urgences et coordinateur dedie qui suit votre dossier du devis au rapport final.",
+      "Fin de bail garantit la remise des clés, astreinte pour les urgences et coordinateur dédié qui suit votre dossier du devis au rapport final.",
   },
   {
-    title: "Procedures digitalisees",
+    title: "Procédures digitalisées",
     description:
-      "Checklists, rapports photos, chatbot devis et facturation automatisee : un suivi transparent et disponible en permanence.",
+      "Checklists, rapports photos, chatbot devis et facturation automatisée : un suivi transparent et disponible en permanence.",
   },
   {
-    title: "Option ecologique maitrisee",
+    title: "Option écologique maîtrisée",
     description:
-      "Produits certifies sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l\u2019environnement.",
+      "Produits certifiés sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l’environnement.",
+  },
+];
+
+const gallery = [
+  {
+    src: "/images/feature-sanitizing.png",
+    alt: "Désinfection d’une poignée avec un spray Premium Solution écologique.",
+  },
+  {
+    src: "/images/feature-eco-product.png",
+    alt: "Produits Premium Solution alignés pour les interventions écologiques.",
   },
 ];
 
@@ -35,12 +46,12 @@ export function Features() {
               Valeurs Premium Solution
             </Badge>
             <h2 className="font-display text-3xl font-semibold sm:text-4xl">
-              <span className="text-gradient">Excellence, fiabilite et reactivite</span>{" "}
+              <span className="text-gradient">Excellence, fiabilité & réactivité</span>{" "}
               <span className="text-foreground">au quotidien</span>
             </h2>
             <p className="text-base text-muted-foreground">
               Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des
-              prestations irreprochables, du hall d\u2019immeuble aux espaces de production.
+              prestations irréprochables, du hall d’immeuble aux espaces de production.
             </p>
           </div>
 
@@ -61,25 +72,26 @@ export function Features() {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="relative overflow-hidden rounded-[36px] border border-border/70 bg-white/85 shadow-[0_30px_90px_-40px_rgba(31,125,96,0.45)] backdrop-blur-lg dark:border-border/40 dark:bg-white/[0.08]">
-            <Image
-              src="/images/feature-sanitizing.png"
-              alt="Controle qualite Premium Solution sur site."
-              width={640}
-              height={500}
-              className="h-full w-full object-cover saturate-[1.02]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,24,19,0.5)] via-transparent to-transparent" />
-          </div>
-
-          <div className="absolute -right-6 -bottom-10 w-[260px] rounded-3xl border border-secondary/30 bg-white/95 p-6 shadow-[0_20px_60px_-28px_rgba(192,144,63,0.5)] backdrop-blur-lg dark:border-secondary/40 dark:bg-secondary/25">
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-secondary/80">Audit qualite</p>
-            <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground/90">94 pts / 100</p>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Score moyen obtenu lors des controles mensuels sur nos sites actifs au dernier trimestre.
-            </p>
-          </div>
+        <div className="flex flex-col gap-5">
+          {gallery.map((image, index) => (
+            <div
+              key={image.src}
+              className="relative overflow-hidden rounded-[32px] border border-border/70 bg-white/85 shadow-[0_30px_90px_-44px_rgba(31,125,96,0.5)] backdrop-blur-lg transition duration-500 hover:-translate-y-1.5 hover:border-primary/30 dark:border-border/40 dark:bg-white/[0.08]"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={640}
+                height={360}
+                className="h-full w-full object-cover saturate-[1.02]"
+                priority={index === 0}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,24,19,0.5)] via-transparent to-transparent" />
+              <p className="absolute bottom-4 left-4 max-w-[260px] text-sm font-medium text-white drop-shadow-lg">
+                {image.alt}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </AnimatedSection>

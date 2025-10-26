@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Shield, Award, Leaf, CheckCircle, Star, Zap } from "lucide-react";
 
 const certifications = [
-  { icon: Shield, label: "Assurance responsabilite civile" },
-  { icon: Award, label: "Personnel certifie" },
-  { icon: Leaf, label: "Option produits ecologiques" },
+  { icon: Shield, label: "Assurance responsabilité civile" },
+  { icon: Award, label: "Personnel certifié" },
+  { icon: Leaf, label: "Option produits écologiques" },
   { icon: CheckCircle, label: "Garantie fin de bail" },
   { icon: Star, label: "4.9/5 satisfaction client" },
   { icon: Zap, label: "Intervention 24/7" },

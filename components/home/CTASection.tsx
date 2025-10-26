@@ -20,18 +20,17 @@ export function CTASection() {
           <div className="relative flex flex-col gap-8 text-white lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl space-y-4">
               <p className="text-sm font-semibold uppercase tracking-[0.4em] text-primary">
-                {"Passage a l\u2019action"}
+                Passage à l’action
               </p>
               <h2 className="text-3xl font-semibold text-white sm:text-4xl">
-                Prets pour un partenariat de confiance avec Premium Solution ?
+                Prêts pour un partenariat de confiance avec Premium Solution ?
               </h2>
               <p className="text-base text-white/85">
-                {
-                  "Lancez le chatbot pour obtenir un devis precis ou contactez directement notre equipe. Nous intervenons dans tout le Valais et la Suisse romande avec la meme exigence de qualite."
-                }
+                Lancez le chatbot pour obtenir un devis précis ou contactez directement notre équipe. Nous intervenons
+                dans tout le Valais et la Suisse romande avec la même exigence de qualité.
               </p>
               <p className="text-sm font-medium text-primary/80">
-                {"Besoin d\u2019un echange humain ? Appelez-nous au +41 76 607 46 82."}
+                Besoin d’un échange humain ? Appelez-nous au +41 76 607 46 82.
               </p>
             </div>
             <div className="flex flex-col gap-3 md:flex-row">
