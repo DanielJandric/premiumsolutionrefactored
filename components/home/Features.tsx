@@ -21,40 +21,26 @@ const features = [
   {
     title: "Option ecologique maitrisee",
     description:
-      "Produits certifies sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l'environnement.",
-  },
-];
-
-const gallery = [
-  {
-    src: "/images/feature-sanitizing.png",
-    alt: "Desinfection d'une poignee avec un spray Premium Solution ecologique.",
-  },
-  {
-    src: "/images/feature-eco-product.png",
-    alt: "Produits Premium Solution alignes pour les interventions ecologiques.",
+      "Produits certifies sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l\u2019environnement.",
   },
 ];
 
 export function Features() {
   return (
     <AnimatedSection>
-      <div className="section-inner-wide grid items-center gap-10 lg:grid-cols-[1.1fr,0.9fr]">
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <Badge variant="outline" className="border-primary/50 text-primary dark:border-primary/45 dark:text-white">
+      <div className="section-inner-wide grid items-center gap-12 lg:grid-cols-[1.1fr,0.9fr]">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <Badge className="border border-primary/20 bg-primary/10 text-primary dark:border-primary/30 dark:bg-primary/20">
               Valeurs Premium Solution
             </Badge>
             <h2 className="font-display text-3xl font-semibold sm:text-4xl">
-              <span className="text-gradient bg-gradient-to-r from-foreground via-primary to-foreground">
-                Excellence, fiabilite et reactivite
-              </span>{" "}
+              <span className="text-gradient">Excellence, fiabilite et reactivite</span>{" "}
               <span className="text-foreground">au quotidien</span>
             </h2>
             <p className="text-base text-muted-foreground">
-              {
-                "Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des prestations irreprochables, du hall d'immeuble aux espaces de production."
-              }
+              Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des
+              prestations irreprochables, du hall d\u2019immeuble aux espaces de production.
             </p>
           </div>
 
@@ -62,43 +48,38 @@ export function Features() {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="rounded-3xl border border-border/70 bg-card/90 p-5 shadow-lg shadow-primary/5 transition-all duration-500 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/20 dark:border-border/60 dark:bg-card/35 dark:shadow-primary/15 dark:hover:border-primary/45 card-3d neon-border group"
-                style={{
-                  transitionDelay: `${index * 50}ms`,
-                }}
+                className="rounded-3xl border border-border/70 bg-white/85 p-5 shadow-[0_20px_45px_-28px_rgba(31,125,96,0.35)] transition duration-500 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_26px_60px_-28px_rgba(31,125,96,0.4)] dark:border-border/40 dark:bg-white/[0.08]"
+                style={{ transitionDelay: `${index * 60}ms` }}
               >
-                <div className="relative">
-                  <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
-                    {feature.title}
-                  </h3>
-                  <div className="absolute -left-2 top-0 h-full w-1 rounded-full bg-gradient-to-b from-primary to-secondary opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/70">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold text-foreground dark:text-foreground/90">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-5">
-          {gallery.map((image, index) => (
-            <div
-              key={image.src}
-              className="relative overflow-hidden rounded-3xl border border-primary/30 shadow-xl shadow-primary/10 dark:border-primary/40 dark:shadow-primary/20 neon-border group"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                width={640}
-                height={360}
-                className="h-full w-full object-cover ken-burns"
-                priority={index === 0}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent transition-opacity group-hover:from-black/40" />
-              <p className="absolute bottom-4 left-4 max-w-[260px] text-sm font-medium text-white drop-shadow-lg">
-                {image.alt}
-              </p>
-            </div>
-          ))}
+        <div className="relative">
+          <div className="relative overflow-hidden rounded-[36px] border border-border/70 bg-white/85 shadow-[0_30px_90px_-40px_rgba(31,125,96,0.45)] backdrop-blur-lg dark:border-border/40 dark:bg-white/[0.08]">
+            <Image
+              src="/images/feature-sanitizing.png"
+              alt="Controle qualite Premium Solution sur site."
+              width={640}
+              height={500}
+              className="h-full w-full object-cover saturate-[1.02]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,24,19,0.5)] via-transparent to-transparent" />
+          </div>
+
+          <div className="absolute -right-6 -bottom-10 w-[260px] rounded-3xl border border-secondary/30 bg-white/95 p-6 shadow-[0_20px_60px_-28px_rgba(192,144,63,0.5)] backdrop-blur-lg dark:border-secondary/40 dark:bg-secondary/25">
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-secondary/80">Audit qualite</p>
+            <p className="mt-3 text-3xl font-semibold text-foreground dark:text-foreground/90">94 pts / 100</p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Score moyen obtenu lors des controles mensuels sur nos sites actifs au dernier trimestre.
+            </p>
+          </div>
         </div>
       </div>
     </AnimatedSection>

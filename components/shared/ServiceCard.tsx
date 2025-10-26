@@ -8,6 +8,7 @@ interface ServiceCardProps {
   items: string[];
   category: string;
   className?: string;
+  tone?: "emerald" | "gold" | "stone";
 }
 
 export function ServiceCard({
@@ -16,29 +17,72 @@ export function ServiceCard({
   items,
   category,
   className,
+  tone = "emerald",
 }: ServiceCardProps) {
+  const toneStyles: Record<
+    NonNullable<ServiceCardProps["tone"]>,
+    {
+      background: string;
+      badge: string;
+      bullet: string;
+      glow: string;
+    }
+  > = {
+    emerald: {
+      background:
+        "before:bg-[radial-gradient(circle_at_0%_0%,rgba(74,154,124,0.32),transparent_58%),radial-gradient(circle_at_90%_90%,rgba(47,125,96,0.24),transparent_55%)]",
+      badge: "bg-primary/15 text-primary border border-primary/20 dark:bg-primary/25 dark:text-primary-foreground",
+      bullet: "bg-primary",
+      glow: "shadow-[0_18px_50px_-22px_rgba(47,125,96,0.42)]",
+    },
+    gold: {
+      background:
+        "before:bg-[radial-gradient(circle_at_0%_0%,rgba(192,144,63,0.28),transparent_55%),radial-gradient(circle_at_90%_90%,rgba(192,144,63,0.22),transparent_50%)]",
+      badge: "bg-secondary/15 text-secondary-foreground border border-secondary/25 dark:bg-secondary/30",
+      bullet: "bg-secondary",
+      glow: "shadow-[0_18px_55px_-24px_rgba(192,144,63,0.36)]",
+    },
+    stone: {
+      background:
+        "before:bg-[radial-gradient(circle_at_0%_0%,rgba(155,138,118,0.24),transparent_50%),radial-gradient(circle_at_90%_90%,rgba(93,81,67,0.22),transparent_48%)]",
+      badge: "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-900/40 dark:text-slate-200",
+      bullet: "bg-slate-500",
+      glow: "shadow-[0_18px_50px_-24px_rgba(61,55,45,0.32)]",
+    },
+  };
+
+  const palette = toneStyles[tone];
+
   return (
     <Card
       className={cn(
-        "relative flex h-full flex-col overflow-hidden border-border/80 bg-card/90 shadow-xl shadow-secondary/5 backdrop-blur transition hover:-translate-y-1.5 hover:shadow-primary/20 dark:border-border/60 dark:bg-card/40 dark:shadow-primary/20 card-3d",
-        className,
+        "relative flex h-full flex-col overflow-hidden border border-border/70 bg-white/85 backdrop-blur transition duration-500 dark:border-border/40 dark:bg-white/[0.08]",
+        "hover:-translate-y-1.5 hover:border-primary/30",
+        palette.glow,
+        className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 -z-10 rounded-xl before:absolute before:inset-[-1px] before:-z-10 before:rounded-[13px] before:bg-[linear-gradient(135deg,rgba(96,163,57,0.35),rgba(63,142,16,0.15),rgba(239,240,237,0.6))]" />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 -z-10 rounded-[20px]",
+          "before:absolute before:inset-[-1px] before:-z-10 before:rounded-[22px] before:content-['']",
+          palette.background
+        )}
+      />
       <div className="absolute left-6 top-6">
-        <Badge variant="secondary" className="shadow-sm shadow-secondary/30 dark:bg-secondary/30 dark:text-secondary-foreground">
+        <Badge className={cn("px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em]", palette.badge)}>
           {category}
         </Badge>
       </div>
       <CardHeader className="space-y-4 pt-16">
-        <CardTitle className="text-2xl">{title}</CardTitle>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <CardTitle className="text-2xl font-semibold text-foreground dark:text-foreground/90">{title}</CardTitle>
+        <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="flex-1 space-y-3 pb-6">
         <ul className="flex flex-col space-y-2 text-sm text-muted-foreground">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              <span className={cn("mt-1 h-1.5 w-1.5 shrink-0 rounded-full", palette.bullet)} />
               <span>{item}</span>
             </li>
           ))}
