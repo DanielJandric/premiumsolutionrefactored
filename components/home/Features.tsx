@@ -4,35 +4,35 @@ import { Badge } from "@/components/ui/badge";
 
 const features = [
   {
-    title: "Équipe formée et certifiée",
+    title: "Equipe formee et certifiee",
     description:
-      "30 collaborateurs Premium Solution, formés aux standards suisses et équipés de matériel professionnel adapté à chaque typologie de site.",
+      "30 collaborateurs Premium Solution, formes aux standards suisses et equipes de materiel professionnel adapte a chaque typologie de site.",
   },
   {
-    title: "Garanties & réactivité",
+    title: "Garanties et reactivite",
     description:
-      "Fin de bail avec remise des clés garantie, astreinte pour les urgences et coordinateur dédié qui suit votre dossier du devis au rapport final.",
+      "Fin de bail avec remise des cles garantie, astreinte pour les urgences et coordinateur dedie qui suit votre dossier du devis au rapport final.",
   },
   {
-    title: "Procédures digitalisées",
+    title: "Procedures digitalisees",
     description:
-      "Checklists, rapports photos, chatbot devis et facturation automatisée : un suivi transparent et disponible en permanence.",
+      "Checklists, rapports photos, chatbot devis et facturation automatisee : un suivi transparent et disponible en permanence.",
   },
   {
-    title: "Option écologique maîtrisée",
+    title: "Option ecologique maitrisee",
     description:
-      "Produits certifiés sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l'environnement.",
+      "Produits certifies sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l'environnement.",
   },
 ];
 
 const gallery = [
   {
     src: "/images/feature-sanitizing.png",
-    alt: "Désinfection d'une poignée avec un spray Premium Solution écologique.",
+    alt: "Desinfection d'une poignee avec un spray Premium Solution ecologique.",
   },
   {
     src: "/images/feature-eco-product.png",
-    alt: "Produits Premium Solution alignés pour les interventions écologiques.",
+    alt: "Produits Premium Solution alignes pour les interventions ecologiques.",
   },
 ];
 
@@ -47,13 +47,14 @@ export function Features() {
             </Badge>
             <h2 className="font-display text-3xl font-semibold sm:text-4xl">
               <span className="text-gradient bg-gradient-to-r from-foreground via-primary to-foreground">
-                Excellence, fiabilité & réactivité
+                Excellence, fiabilite et reactivite
               </span>{" "}
               <span className="text-foreground">au quotidien</span>
             </h2>
             <p className="text-base text-muted-foreground">
-              Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des
-              prestations irréprochables, du hall d'immeuble aux espaces de production.
+              {
+                "Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des prestations irreprochables, du hall d'immeuble aux espaces de production."
+              }
             </p>
           </div>
 

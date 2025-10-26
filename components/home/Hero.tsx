@@ -9,8 +9,8 @@ import { useRef } from "react";
 import { SVGPatterns, AnimatedBlob } from "@/components/shared/SVGPatterns";
 
 const metrics = [
-  { label: "Fondée en", value: 2020, isYear: true },
-  { label: "Collaborateurs certifiés", value: 30, suffix: "+" },
+  { label: "Fondee en", value: 2020, isYear: true },
+  { label: "Collaborateurs certifies", value: 30, suffix: "+" },
   { label: "Clients satisfaits", value: 250, suffix: "+" },
 ];
 
@@ -22,7 +22,6 @@ export function Hero() {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]); // dynamic background shift
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
 
   return (
     <section
@@ -30,17 +29,13 @@ export function Hero() {
       className="section-shell relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10 noise-texture"
     >
       <motion.div className="absolute inset-0 -z-10" style={{ y }}>
-        {/* SVG Pattern */}
         <SVGPatterns pattern="dots" className="text-primary/5" opacity={0.15} />
 
-        {/* Gradient meshes */}
         <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_10%_-20%,#8BCB5A_0%,transparent_40%),radial-gradient(800px_400px_at_90%_-10%,#60A339_0%,transparent_35%)] opacity-35 dark:opacity-50" />
 
-        {/* Animated blobs */}
         <AnimatedBlob className="top-0 left-0" color="primary" />
         <AnimatedBlob className="bottom-0 right-0" color="secondary" />
 
-        {/* Rotating blur circle */}
         <motion.div
           className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20"
           animate={{
@@ -102,8 +97,8 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="mx-auto max-w-2xl text-lg text-muted-foreground lg:mx-0 lg:max-w-xl"
             >
-              Depuis 2020, Premium Solution accompagne gérances, PPE, entreprises et particuliers avec une équipe de 30
-              collaborateurs certifiés. Interventions rapides, contrôle qualité systématique et option écologique sur
+              Depuis 2020, Premium Solution accompagne gerances, PPE, entreprises et particuliers avec une equipe de 30
+              collaborateurs certifies. Interventions rapides, controle qualite systematique et option ecologique sur
               demande.
             </motion.p>
 
@@ -122,7 +117,7 @@ export function Hero() {
                 size="lg"
                 className="min-w-[200px] border border-primary/20 bg-card/80 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/25 dark:text-white dark:hover:bg-card/35"
               >
-                <Link href="/contact">Contacter l'équipe</Link>
+                <Link href="/contact">Contacter l&apos;equipe</Link>
               </Button>
               <Button
                 asChild
@@ -130,7 +125,7 @@ export function Hero() {
                 size="lg"
                 className="min-w-[200px] border border-primary/20 bg-card/70 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/80 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/20 dark:text-white dark:hover:bg-card/30"
               >
-                <Link href="/collaborateurs">Accès collaborateurs</Link>
+                <Link href="/collaborateurs">Acces collaborateurs</Link>
               </Button>
             </motion.div>
           </div>
@@ -171,7 +166,8 @@ export function Hero() {
             >
               <dt className="text-eyebrow">{item.label}</dt>
               <dd className="mt-3 text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
-                {item.value}{item.suffix || ""}
+                {item.value}
+                {item.suffix || ""}
               </dd>
             </motion.div>
           ))}
