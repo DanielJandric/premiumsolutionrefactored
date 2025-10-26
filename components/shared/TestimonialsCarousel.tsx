@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 interface Testimonial {
   company: string;
@@ -21,8 +21,8 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -36,6 +36,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
+  // Auto-play
   useEffect(() => {
     if (!emblaApi) return;
     const interval = setInterval(() => {
@@ -49,31 +50,40 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-6">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-              <Card className="relative h-full overflow-hidden border border-border/70 bg-white/85 shadow-[0_24px_60px_-32px_rgba(31,125,96,0.32)] backdrop-blur-md transition duration-500 hover:-translate-y-1.5 hover:border-primary/35 hover:shadow-[0_32px_72px_-30px_rgba(31,125,96,0.36)] dark:border-border/40 dark:bg-white/[0.08]">
+            <div
+              key={index}
+              className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+            >
+              <Card className="relative h-full overflow-hidden border-primary/20 bg-card/90 shadow-xl shadow-primary/10 backdrop-blur-md transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 dark:border-primary/30 dark:bg-card/35 dark:shadow-primary/20 card-3d neon-border group will-change-transform glass">
                 <CardHeader>
-                  <CardTitle className="flex items-center justify-between text-lg font-semibold text-foreground">
-                    <span>{testimonial.company}</span>
+                  <CardTitle className="text-lg text-primary dark:text-primary-foreground flex items-center justify-between group-hover:text-secondary transition-colors">
+                    <span className="font-semibold">{testimonial.company}</span>
                     {testimonial.rating && (
-                      <div className="flex gap-0.5 text-secondary">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span
                             key={i}
-                            className={`h-4 w-4 transition-transform duration-300 ${
-                              i < testimonial.rating! ? "fill-current" : "opacity-20"
+                            className={`transition-all duration-300 ${
+                              i < testimonial.rating!
+                                ? "text-gold-500 opacity-100 scale-100 group-hover:scale-110"
+                                : "text-gold-500 opacity-30 scale-90"
                             }`}
-                          />
+                          >
+                            ★
+                          </span>
                         ))}
                       </div>
                     )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                  <p className="text-base leading-relaxed text-muted-foreground">{testimonial.message}</p>
-                  <div className="flex items-center justify-between border-t border-dashed border-border/60 pt-4 text-sm text-muted-foreground dark:border-border/40">
-                    <span className="font-semibold text-foreground dark:text-foreground/90">{testimonial.author}</span>
-                    <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.32em] text-primary dark:border-primary/30 dark:bg-primary/20 dark:text-primary-foreground">
-                      Verifie
+                  <p className="text-base text-muted-foreground leading-relaxed italic group-hover:text-foreground transition-colors">
+                    {testimonial.message}
+                  </p>
+                  <div className="flex items-center justify-between border-t border-dashed border-primary/20 pt-4 text-sm text-muted-foreground dark:border-primary/30">
+                    <span className="font-semibold text-foreground">{testimonial.author}</span>
+                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-primary dark:border-primary/30 dark:bg-primary/25 dark:text-primary-foreground group-hover:bg-primary/20 transition-colors">
+                      Vérifié
                     </span>
                   </div>
                 </CardContent>
@@ -83,28 +93,40 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
         </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-4">
-        <Button variant="outline" size="icon" onClick={scrollPrev} className="rounded-full border-primary/30 hover:bg-primary/10 transition-all hover:scale-110">
+      {/* Navigation Buttons */}
+      <div className="flex items-center justify-center gap-4 mt-8">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={scrollPrev}
+          className="rounded-full border-primary/40 hover:bg-primary/10 transition-all hover:scale-110 glow"
+        >
           <ChevronLeft className="h-5 w-5" />
-          <span className="sr-only">Precedent</span>
         </Button>
 
+        {/* Dots */}
         <div className="flex gap-2">
           {testimonials.map((_, index) => (
             <button
               key={index}
               className={`h-2 rounded-full transition-all duration-300 ${
-                index === selectedIndex ? "w-8 bg-primary" : "w-2 bg-primary/30 hover:bg-primary/50"
+                index === selectedIndex
+                  ? "w-8 bg-primary"
+                  : "w-2 bg-primary/30 hover:bg-primary/50"
               }`}
               onClick={() => emblaApi?.scrollTo(index)}
-              aria-label={`Aller au temoignage ${index + 1}`}
+              aria-label={`Go to testimonial ${index + 1}`}
             />
           ))}
         </div>
 
-        <Button variant="outline" size="icon" onClick={scrollNext} className="rounded-full border-primary/30 hover:bg-primary/10 transition-all hover:scale-110">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={scrollNext}
+          className="rounded-full border-primary/40 hover:bg-primary/10 transition-all hover:scale-110 glow"
+        >
           <ChevronRight className="h-5 w-5" />
-          <span className="sr-only">Suivant</span>
         </Button>
       </div>
     </div>

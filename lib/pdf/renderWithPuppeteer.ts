@@ -57,10 +57,10 @@ export async function renderPdfWithPuppeteer(
       format: "A4",
       printBackground: true,
       margin: {
-        top: "0mm",
-        bottom: "0mm",
-        left: "0mm",
-        right: "0mm",
+        top: "20mm",
+        bottom: "20mm",
+        left: "18mm",
+        right: "18mm",
       },
     });
 

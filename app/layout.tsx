@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter, Manrope, Playfair_Display } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 
 import "@/app/globals.css";
 import { Header } from "@/components/layout/Header";
@@ -24,21 +24,14 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-playfair",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.premium-solution.ch"),
   title: {
-    default: "Premium Solution CM SARL | Conciergerie & Nettoyage Suisse romande",
-    template: "%s | Premium Solution CM SARL",
+    default: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
+    template: "%s | Premium Solution CM Sàrl",
   },
   description:
-    "Premium Solution accompagne gerances, PPE, entreprises et particuliers en Suisse romande avec des prestations de conciergerie, nettoyage professionnel et facility management haut de gamme.",
+    "Premium Solution CM Sàrl accompagne gérances, PPE, entreprises et particuliers en Suisse romande avec des prestations de conciergerie, nettoyage professionnel et facility management haut de gamme.",
   keywords: [
     "Premium Solution",
     "conciergerie Suisse romande",
@@ -50,18 +43,18 @@ export const metadata: Metadata = {
     "services de nettoyage Valais",
   ],
   applicationName: "Premium Solution",
-  authors: [{ name: "Premium Solution CM SARL", url: "https://www.premium-solution.ch" }],
-  creator: "Premium Solution CM SARL",
-  publisher: "Premium Solution CM SARL",
+  authors: [{ name: "Premium Solution CM Sàrl", url: "https://www.premium-solution.ch" }],
+  creator: "Premium Solution CM Sàrl",
+  publisher: "Premium Solution CM Sàrl",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Premium Solution CM SARL | Conciergerie & Nettoyage Suisse romande",
+    title: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
     description:
-      "Conciergerie, nettoyage professionnel et services premium pour gerances, entreprises et particuliers en Suisse romande.",
+      "Conciergerie, nettoyage professionnel et services premium pour gérances, entreprises et particuliers en Suisse romande.",
     url: "https://www.premium-solution.ch",
-    siteName: "Premium Solution CM SARL",
+    siteName: "Premium Solution CM Sàrl",
     images: [
       {
         url: "/images/hero-professional.png",
@@ -75,9 +68,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Premium Solution CM SARL | Conciergerie & Nettoyage Suisse romande",
+    title: "Premium Solution CM Sàrl | Conciergerie & Nettoyage Suisse romande",
     description:
-      "Prestations de conciergerie et nettoyage premium pour gerances, entreprises et particuliers en Suisse romande.",
+      "Prestations de conciergerie et nettoyage premium pour gérances, entreprises et particuliers en Suisse romande.",
     creator: "@PremiumSolution",
     images: ["/images/hero-professional.png"],
   },
@@ -106,11 +99,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={cn(
           inter.variable,
           manrope.variable,
-          playfair.variable,
-          "min-h-screen bg-background text-foreground antialiased"
+          "min-h-screen bg-background text-foreground antialiased",
         )}
         style={{
-          fontFamily: "Inter, Manrope, 'Playfair Display', system-ui, sans-serif",
+          fontFamily: "Inter, Manrope, system-ui, sans-serif",
         }}
       >
         <ThemeProvider>
@@ -119,9 +111,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ScrollProgress />
           <div className="flex min-h-screen flex-col">
             <Header />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
+            <main id="main-content" className="flex-1">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

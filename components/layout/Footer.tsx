@@ -15,7 +15,7 @@ const services = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-auto border-t border-border bg-gradient-to-t from-primary/5 via-background to-background dark:border-border/60 dark:from-primary/15 dark:via-background/95">
+    <footer className="relative mt-20 border-t border-border bg-gradient-to-t from-primary/5 via-background to-background dark:border-border/60 dark:from-primary/15 dark:via-background/95">
       <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-4">

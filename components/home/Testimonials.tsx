@@ -41,22 +41,24 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <AnimatedSection>
-      <div className="section-inner space-y-14 md:space-y-16">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-eyebrow text-primary/70">Témoignages clients</p>
-          <h2 className="mt-4 text-balance font-display text-4xl font-semibold md:text-5xl lg:text-6xl">
-            <span className="text-gradient-animate">Ce que nos clients</span>{" "}
-            <span className="text-foreground">apprécient</span>
-          </h2>
-          <p className="mt-6 text-subtitle text-muted-foreground">
-            Plus de 250 clients satisfaits nous font confiance.
-          </p>
-        </div>
+    <AnimatedSection className="container py-24 md:py-32">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-eyebrow">
+          Témoignages clients
+        </p>
+        <h2 className="mt-4 text-balance">
+          <span className="text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary text-4xl md:text-5xl lg:text-6xl font-bold">
+            Ce que nos clients
+          </span>{" "}
+          <span className="text-foreground text-4xl md:text-5xl lg:text-6xl font-bold block mt-2">apprécient</span>
+        </h2>
+        <p className="mt-6 text-subtitle">
+          Plus de 250 clients satisfaits nous font confiance
+        </p>
+      </div>
 
-        <div className="md:mt-4">
-          <TestimonialsCarousel testimonials={testimonials} />
-        </div>
+      <div className="mt-16 md:mt-20">
+        <TestimonialsCarousel testimonials={testimonials} />
       </div>
     </AnimatedSection>
   );
