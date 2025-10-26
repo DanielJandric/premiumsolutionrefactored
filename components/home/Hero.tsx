@@ -9,8 +9,8 @@ import { useRef } from "react";
 import { SVGPatterns, AnimatedBlob } from "@/components/shared/SVGPatterns";
 
 const metrics = [
-  { label: "Fondee en", value: 2020, isYear: true },
-  { label: "Collaborateurs certifies", value: 30, suffix: "+" },
+  { label: "Fondée en", value: 2020, isYear: true },
+  { label: "Collaborateurs certifiés", value: 30, suffix: "+" },
   { label: "Clients satisfaits", value: 250, suffix: "+" },
 ];
 
@@ -25,7 +25,10 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10 noise-texture">
+    <section
+      ref={ref}
+      className="section-shell relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background dark:via-primary/10 noise-texture"
+    >
       <motion.div className="absolute inset-0 -z-10" style={{ y }}>
         {/* SVG Pattern */}
         <SVGPatterns pattern="dots" className="text-primary/5" opacity={0.15} />
@@ -52,9 +55,9 @@ export function Hero() {
         />
       </motion.div>
 
-      <div className="container flex flex-col gap-12 pb-16 pt-16">
+      <div className="section-inner-wide flex flex-col gap-12">
         <Badge className="mx-auto bg-primary text-primary-foreground shadow-lg shadow-primary/30 lg:mx-0">
-          Conciergerie & Nettoyage premium
+          Conciergerie & nettoyage premium
         </Badge>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr),minmax(0,1fr)] lg:items-center">
@@ -64,16 +67,21 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="relative z-10 font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl text-balance"
+                className="relative z-10 text-hero"
               >
-                <span className="text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary">
+                <span className="block text-gradient-animate bg-gradient-to-r from-primary via-secondary to-primary">
                   Premium Solution
                 </span>
-                <span className="mt-4 block text-3xl text-foreground sm:text-4xl lg:text-5xl text-balance">
-                  Votre partenaire conciergerie & nettoyage en {" "}
-                  <span className="text-primary font-bold">Suisse romande</span>
-                </span>
               </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.05 }}
+                className="mt-4 max-w-2xl text-balance font-display text-[clamp(1.6rem,1.28rem+1.1vw,2.45rem)] text-foreground"
+              >
+                Votre partenaire conciergerie & nettoyage en{" "}
+                <span className="text-primary font-semibold">Suisse romande</span>
+              </motion.p>
 
               <div className="pointer-events-none absolute -bottom-6 left-1/2 w-full -translate-x-1/2 -z-10 hidden lg:block">
                 <Image
@@ -91,12 +99,12 @@ export function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
               className="mx-auto max-w-2xl text-lg text-muted-foreground lg:mx-0 lg:max-w-xl"
             >
-              Depuis 2020, Premium Solution accompagne gerances, PPE, entreprises et particuliers avec une equipe de
-              30 collaborateurs certifies. Interventions rapides, controle qualite systematique et option ecologique
-              sur demande.
+              Depuis 2020, Premium Solution accompagne gérances, PPE, entreprises et particuliers avec une équipe de 30
+              collaborateurs certifiés. Interventions rapides, contrôle qualité systématique et option écologique sur
+              demande.
             </motion.p>
 
             <motion.div
@@ -114,7 +122,7 @@ export function Hero() {
                 size="lg"
                 className="min-w-[200px] border border-primary/20 bg-card/80 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/25 dark:text-white dark:hover:bg-card/35"
               >
-                <Link href="/contact">Contacter l&apos;equipe</Link>
+                <Link href="/contact">Contacter l'équipe</Link>
               </Button>
               <Button
                 asChild
@@ -122,7 +130,7 @@ export function Hero() {
                 size="lg"
                 className="min-w-[200px] border border-primary/20 bg-card/70 text-primary shadow-sm shadow-primary/10 backdrop-blur transition hover:bg-card/80 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 dark:border-primary/40 dark:bg-card/20 dark:text-white dark:hover:bg-card/30"
               >
-                <Link href="/collaborateurs">Acces collaborateurs</Link>
+                <Link href="/collaborateurs">Accès collaborateurs</Link>
               </Button>
             </motion.div>
           </div>

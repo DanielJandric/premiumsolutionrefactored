@@ -11,7 +11,7 @@ const features = [
   {
     title: "Garanties & réactivité",
     description:
-      "Fin de bail garantit la remise des clés, astreinte pour les urgences et coordinateur dédié qui suit votre dossier du devis au rapport final.",
+      "Fin de bail avec remise des clés garantie, astreinte pour les urgences et coordinateur dédié qui suit votre dossier du devis au rapport final.",
   },
   {
     title: "Procédures digitalisées",
@@ -21,14 +21,14 @@ const features = [
   {
     title: "Option écologique maîtrisée",
     description:
-      "Produits certifiés sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l’environnement.",
+      "Produits certifiés sur demande (+10 %) et protocoles respectueux des occupants, des surfaces sensibles et de l'environnement.",
   },
 ];
 
 const gallery = [
   {
     src: "/images/feature-sanitizing.png",
-    alt: "Désinfection d’une poignée avec un spray Premium Solution écologique.",
+    alt: "Désinfection d'une poignée avec un spray Premium Solution écologique.",
   },
   {
     src: "/images/feature-eco-product.png",
@@ -38,23 +38,22 @@ const gallery = [
 
 export function Features() {
   return (
-    <AnimatedSection className="container py-14">
-      <div className="grid items-center gap-8 lg:grid-cols-[1.15fr,0.85fr]">
+    <AnimatedSection>
+      <div className="section-inner-wide grid items-center gap-10 lg:grid-cols-[1.1fr,0.9fr]">
         <div className="space-y-6">
           <div className="space-y-3">
             <Badge variant="outline" className="border-primary/50 text-primary dark:border-primary/45 dark:text-white">
               Valeurs Premium Solution
             </Badge>
-            <h2 className="text-3xl font-semibold sm:text-4xl">
+            <h2 className="font-display text-3xl font-semibold sm:text-4xl">
               <span className="text-gradient bg-gradient-to-r from-foreground via-primary to-foreground">
                 Excellence, fiabilité & réactivité
               </span>{" "}
               <span className="text-foreground">au quotidien</span>
             </h2>
             <p className="text-base text-muted-foreground">
-              Premium Solution associe expertise humaine, protocoles rigoureux et
-              outils digitaux pour garantir des prestations irréprochables, du hall
-              d’immeuble aux espaces de production.
+              Premium Solution associe expertise humaine, protocoles rigoureux et outils digitaux pour garantir des
+              prestations irréprochables, du hall d'immeuble aux espaces de production.
             </p>
           </div>
 
@@ -68,12 +67,12 @@ export function Features() {
                 }}
               >
                 <div className="relative">
-                  <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
                     {feature.title}
                   </h3>
-                  <div className="absolute -left-2 top-0 w-1 h-full bg-gradient-to-b from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
+                  <div className="absolute -left-2 top-0 h-full w-1 rounded-full bg-gradient-to-b from-primary to-secondary opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
-                <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>

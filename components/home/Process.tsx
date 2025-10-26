@@ -8,8 +8,7 @@ const steps = [
     description:
       "Nous échangeons par téléphone, formulaire ou chatbot pour cerner votre besoin (gérance, entreprise ou particulier) et planifier la visite technique si nécessaire.",
     imageSrc: "/images/process-step-1.png",
-    imageAlt:
-      "Responsable Premium Solution serrant la main d’une cliente dans un hall d’immeuble.",
+    imageAlt: "Responsable Premium Solution serrant la main d'une cliente dans un hall d'immeuble.",
   },
   {
     number: "02",
@@ -17,60 +16,52 @@ const steps = [
     description:
       "Sophie, notre assistante virtuelle, collecte les informations utiles. Un devis détaillé est généré puis envoyé avec estimation et validité.",
     imageSrc: "/images/process-step-2.png",
-    imageAlt:
-      "Nettoyage précis d’une surface de bureau avec les produits Premium Solution.",
+    imageAlt: "Nettoyage précis d'une surface de bureau avec les produits Premium Solution.",
   },
   {
     number: "03",
     title: "Intervention & suivi",
     description:
-      "Planification rapide, équipe dédiée et contrôle qualité sur site. Rapport d’intervention et suivi régulier assurés par nos coordinateurs.",
+      "Planification rapide, équipe dédiée et contrôle qualité sur site. Rapport d'intervention et suivi régulier assurés par nos coordinateurs.",
     imageSrc: "/images/process-step-3.png",
-    imageAlt:
-      "Équipe Premium Solution préparant le matériel dans un appartement lumineux.",
+    imageAlt: "Équipe Premium Solution préparant le matériel dans un appartement lumineux.",
   },
 ];
 
 export function Process() {
   return (
-    <AnimatedSection className="container py-14">
-      <div className="mx-auto max-w-2xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-wide text-primary">
-          Processus premium
-        </p>
-        <h2 className="mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
-          Un parcours client fluide du premier contact à la prestation
-        </h2>
-      </div>
+    <AnimatedSection>
+      <div className="section-inner space-y-12">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">Processus premium</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+            Un parcours client fluide du premier contact à la prestation
+          </h2>
+        </div>
 
-      <div className="mt-10 space-y-8">
-        {steps.map((step) => (
-          <div
-            key={step.number}
-            className="grid gap-6 rounded-3xl border border-border/70 bg-card/90 p-5 shadow-xl shadow-secondary/10 md:grid-cols-[auto,1fr] dark:border-border/60 dark:bg-card/35 dark:shadow-primary/15"
-          >
-            <div className="flex items-start">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-lg font-semibold text-primary shadow-inner shadow-primary/15 dark:border-primary/40 dark:bg-primary/25 dark:text-primary-foreground">
-                {step.number}
+        <div className="space-y-8">
+          {steps.map((step) => (
+            <div
+              key={step.number}
+              className="grid gap-6 rounded-3xl border border-border/70 bg-card/90 p-5 shadow-xl shadow-secondary/10 dark:border-border/60 dark:bg-card/35 dark:shadow-primary/15 md:grid-cols-[auto,1fr]"
+            >
+              <div className="flex items-start">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-lg font-semibold text-primary shadow-inner shadow-primary/15 dark:border-primary/40 dark:bg-primary/25 dark:text-primary-foreground">
+                  {step.number}
+                </div>
+              </div>
+              <div className="grid gap-5 lg:grid-cols-[1.05fr,1fr]">
+                <div>
+                  <h3 className="text-xl font-semibold text-foreground">{step.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
+                </div>
+                <div className="relative overflow-hidden rounded-2xl border border-primary/20 dark:border-primary/35">
+                  <Image src={step.imageSrc} alt={step.imageAlt} width={480} height={320} className="h-full w-full object-cover" />
+                </div>
               </div>
             </div>
-            <div className="grid gap-5 lg:grid-cols-[1.1fr,1fr]">
-              <div>
-                <h3 className="text-xl font-semibold text-foreground">{step.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
-              </div>
-              <div className="relative overflow-hidden rounded-2xl border border-primary/20 dark:border-primary/35">
-                <Image
-                  src={step.imageSrc}
-                  alt={step.imageAlt}
-                  width={480}
-                  height={320}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </AnimatedSection>
   );

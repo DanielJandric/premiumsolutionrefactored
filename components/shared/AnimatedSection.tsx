@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  motion,
-  useAnimation,
-  type MotionProps,
-  useInView,
-} from "framer-motion";
+import { motion, useAnimation, type MotionProps, useInView } from "framer-motion";
 import { useEffect, useRef, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface AnimatedSectionProps extends MotionProps {
   children: ReactNode;
@@ -35,7 +31,7 @@ export function AnimatedSection({
       ref={ref}
       initial="hidden"
       animate={controls}
-      className={className}
+      className={cn("section-shell", className)}
       variants={{
         hidden: { opacity: 0, y: 40 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay } },

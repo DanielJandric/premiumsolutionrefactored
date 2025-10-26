@@ -51,6 +51,13 @@
     --ring: 63 142 16;
 
     --radius: 0.75rem;
+    --content-max: 1120px;
+    --content-max-wide: 1320px;
+    --section-spacing: clamp(4rem, 5vw, 6.5rem);
+    --section-spacing-tight: clamp(3rem, 4vw, 5.25rem);
+    --section-inline: clamp(1.25rem, 3vw, 3rem);
+    --section-inline-wide: clamp(1rem, 2.5vw, 2.5rem);
+    --container-gap: clamp(1.5rem, 2.5vw, 2.75rem);
 
     color-scheme: light;
   }
@@ -106,6 +113,9 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-size: clamp(0.98rem, 0.94rem + 0.22vw, 1.08rem);
+    line-height: 1.55;
+    letter-spacing: -0.004em;
   }
 }
 
@@ -127,7 +137,11 @@
 
   /* Hero text (very large display text) */
   .text-hero {
-    @apply font-display text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl;
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    font-size: clamp(2.65rem, 1.85rem + 2.8vw, 4.1rem);
+    line-height: 1.08;
     text-wrap: balance;
   }
 
@@ -151,6 +165,32 @@
   .text-gradient-gold {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-400 via-gold-600 to-gold-400;
     background-size: 200% auto;
+  }
+
+  /* ========================================
+     SECTIONS & LAYOUT
+     ======================================== */
+
+  .section-shell {
+    padding-block: var(--section-spacing);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-shell-tight {
+    padding-block: var(--section-spacing-tight);
+  }
+
+  .section-inner {
+    width: min(var(--content-max), calc(100% - 2 * var(--section-inline)));
+    margin-inline: auto;
+    padding-inline: var(--section-inline);
+  }
+
+  .section-inner-wide {
+    width: min(var(--content-max-wide), calc(100% - 2 * var(--section-inline-wide)));
+    margin-inline: auto;
+    padding-inline: var(--section-inline-wide);
   }
 
   /* ========================================

@@ -15,13 +15,13 @@ const certifications = [
 
 export function CertificationsMarquee() {
   return (
-    <div className="py-8 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
+    <div className="section-shell-tight bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
       <InfiniteMarquee speed="normal">
         {certifications.map((cert, index) => (
           <Badge
             key={index}
             variant="outline"
-            className="flex items-center gap-2 px-6 py-3 text-sm font-medium border-primary/30 bg-card/80 backdrop-blur hover:bg-primary/10 transition-colors whitespace-nowrap"
+            className="flex items-center gap-2 whitespace-nowrap border-primary/30 bg-card/80 px-6 py-3 text-sm font-medium backdrop-blur transition-colors hover:bg-primary/10"
           >
             <cert.icon className="h-4 w-4 text-primary" />
             {cert.label}
