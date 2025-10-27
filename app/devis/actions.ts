@@ -74,6 +74,14 @@ const quoteRequestSchema = z.object({
 
 export type QuoteRequestSubmission = z.infer<typeof quoteRequestSchema>;
 
+function normalizeOptionalString(value?: string | null) {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
 export async function submitQuoteRequestAction(input: QuoteRequestSubmission) {
   const parsed = quoteRequestSchema.safeParse(input);
 
@@ -85,13 +93,25 @@ export async function submitQuoteRequestAction(input: QuoteRequestSubmission) {
   }
 
   const payload = parsed.data;
+  const normalizedClientCompany = normalizeOptionalString(payload.clientCompany);
+  const normalizedClientName = normalizeOptionalString(payload.clientName);
+  const resolvedClientName = normalizedClientName ?? normalizedClientCompany;
+
+  if (!resolvedClientName) {
+    return {
+      success: false,
+      errors: {
+        clientName: ["Renseignez un nom de contact ou une societe."],
+      },
+    };
+  }
 
   const { id, requestNumber } = await createQuoteRequest({
     sessionId: payload.sessionId,
-    clientName: payload.clientName,
+    clientName: resolvedClientName,
     clientEmail: payload.clientEmail,
     clientPhone: payload.clientPhone,
-    clientCompany: payload.clientCompany,
+    clientCompany: normalizedClientCompany,
     clientAddress: payload.clientAddress,
     clientType: payload.clientType,
     serviceType: payload.serviceType,
